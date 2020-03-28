@@ -1,0 +1,16 @@
+{
+  "name": "Live Preload Links",
+  "description": "Select links on a page for preview",
+  "version": "0.6",
+  "minimum_chrome_version": "16.0.884",
+  "permissions": ["<all_urls>",  "activeTab", "storage" ],
+  "browser_action": {"default_popup": "popup.html"},
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["page.js"],
+      "css": []
+    }
+  ]
+}

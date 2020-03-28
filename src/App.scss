@@ -1,0 +1,33 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App-Extension {
+  z-index: 999999999;
+  position: absolute;
+
+}
+
+button {
+  opacity: .6;
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+
+:root {
+  --primary-color: #3f51b5;
+  --grey-color: #d3d3d3;
+
+  --text-color: #d3d3d3;
+
+}

@@ -6,15 +6,23 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "idb-kv-store": "^4.4.0",
+    "node-html-parser": "^1.2.13",
+    "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-draggable": "^4.2.0",
+    "react-dropzone": "^10.2.1",
+    "react-hotkeys": "^2.0.0",
+    "react-icons": "^3.9.0",
     "react-scripts": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build & npm run postbuild",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postbuild": "node ./post-build.js"
   },
   "eslintConfig": {
     "extends": "react-app"
