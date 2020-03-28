@@ -36,6 +36,7 @@ const useSettings = (initialState) => {
 function App() {
   const [ files, updateFiles ] = useState([]);
   const [ file, updateFile ] = useState(null);
+  const [ lock, updateLock ] = useState(false)
 
   const [ settings, updateSettings ] = useSettings({
     x: 0,
@@ -119,6 +120,7 @@ function App() {
           x={ x }
           y={ y }
           scale={ scale }
+          lock={ lock }
           opacity={ opacity / 100 }
           onChangePosition={ onChangePosition }
           file={ file }
@@ -129,6 +131,8 @@ function App() {
           y={ y }
           opacity={ opacity }
           scale={ scale }
+          lock={ lock }
+          onLock={ updateLock }
           onChangeOpacity={ updateOpacity }
           onChangePosition={ onChangePosition }
           onChangeScale={ updateScale }

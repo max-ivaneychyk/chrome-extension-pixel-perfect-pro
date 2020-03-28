@@ -11,8 +11,14 @@
 
 }
 
+.IconWrap {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
 button {
-  opacity: .6;
+  opacity: .8;
 
   &:not([disabled]) {
     cursor: pointer;

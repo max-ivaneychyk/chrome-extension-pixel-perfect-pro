@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import './index.scss'
 import Slider from "../Slider";
 import Input from "../Input";
 import Label from "../Label";
 import Draggable from "react-draggable";
 import { IoIosMenu } from "react-icons/io";
-import { FaLock } from "react-icons/fa";
+import { FaLock, FaUnlock } from "react-icons/fa";
+import { AiOutlineColumnWidth } from "react-icons/ai";
+import Icon from "../Icon";
 
 
 const StopWheelScroll = ({ children }) => {
@@ -17,7 +19,7 @@ const StopWheelScroll = ({ children }) => {
 
   useEffect(() => {
     ref.current.addEventListener('wheel', handleWheel, true);
-  }, [ref, handleWheel])
+  }, [ ref, handleWheel ])
 
   return (
     <div ref={ ref }>
@@ -26,12 +28,20 @@ const StopWheelScroll = ({ children }) => {
   )
 }
 
-const Controls = ({ x, y, scale, opacity, onChangeOpacity, onChangePosition, onChangeScale }) => {
-  const [ controlsPosition, updateControlsPosition ] = React.useState({ x: 0, y: 0 })
+const Controls = ({ x, y, scale, opacity, lock, onChangeOpacity, onChangePosition, onChangeScale, onLock }) => {
+  const [ controlsPosition, updateControlsPosition ] = useState({ x: 0, y: 0 })
 
   const onChange = ({ target }) => {
     onChangePosition({ x, y, [target.name]: parseInt(target.value, 10) })
-  }
+  };
+
+  const handleLock = () => {
+    onLock(!lock)
+  };
+
+  const handleAlignCenter = () => {
+
+  };
 
   const handleScale = ({ target }) => {
     onChangeScale(parseInt(target.value, 10))
@@ -50,16 +60,26 @@ const Controls = ({ x, y, scale, opacity, onChangeOpacity, onChangePosition, onC
       position={ controlsPosition }
       onStop={ handleDragStop }
       handle=".handleDraggable"
+      bounds={ 'body' }
     >
       <div className={ 'Controls' }>
-        <div className={'head'}>
+        <div className={ 'head' }>
 
         <span className={ 'handleDraggable' }>
           <IoIosMenu size={ 22 }/>
         </span>
 
-          <FaLock size={ 16 }/>
-          <FaLock size={ 16 }/>
+          {/*  <FaLock size={ 16 }/>*/ }
+          <Icon
+            Component={ AiOutlineColumnWidth }
+            onClick={ handleAlignCenter }
+          />
+
+          <Icon
+            Component={ lock ? FaLock : FaUnlock }
+            active={ lock }
+            onClick={ handleLock }
+          />
         </div>
 
         <StopWheelScroll>
@@ -80,7 +100,7 @@ const Controls = ({ x, y, scale, opacity, onChangeOpacity, onChangePosition, onC
           </label>
 
           <div className="slidecontainer">
-            <Label>Opacity</Label>
+            <Label>Opacity - { (opacity / 100).toFixed(2) }</Label>
             <Slider value={ opacity } onChange={ handleOpacity }/>
           </div>
         </StopWheelScroll>

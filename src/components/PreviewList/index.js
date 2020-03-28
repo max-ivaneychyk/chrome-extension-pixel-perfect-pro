@@ -3,6 +3,7 @@ import { IoIosCloseCircleOutline, IoIosArrowDropup, IoIosArrowDropdown } from "r
 import './index.scss'
 import { joinClasses } from "../../utils";
 import DropZone from "../DropZone";
+import Icon from "../Icon";
 
 const ScrollArea = ({ children, speed = 0.2 }) => {
   const ref = React.useRef();
@@ -27,9 +28,15 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
 
   return (
     <div className={ joinClasses('PreviewList', !isVisible ? 'hidden' : '') }>
-      <button className={ 'ToggleBtn' } onClick={ handleToggle } title={ 'Show screens' }>
-        { isVisible ? <IoIosArrowDropdown size={ 26 }/> : <IoIosArrowDropup size={ 26 }/> }
-      </button>
+
+      <Icon
+        size={ 26 }
+        onClick={ handleToggle }
+        className={ 'ToggleBtn' }
+        title={ 'Show screens' }
+        Component={ isVisible ? IoIosArrowDropdown : IoIosArrowDropup }
+        active
+      />
 
       <DropZone
         onDrop={ onDrop }
@@ -45,10 +52,14 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                 ) }
                 key={ href }
                 onClick={ () => onSelect(images[index]) }>
+
                 <img src={ href } alt={ '' }/>
-                <button onClick={ () => onDelete(name) }>
-                  <IoIosCloseCircleOutline size={ 26 }/>
-                </button>
+
+                <Icon
+                  size={ 26 }
+                  onClick={ () => onDelete(name) }
+                  Component={ IoIosCloseCircleOutline }
+                />
               </div>
             )
           )
