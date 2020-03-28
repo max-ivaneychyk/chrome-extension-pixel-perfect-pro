@@ -4,4 +4,10 @@
   border: 1px solid  var(--grey-color);
   padding: 0 4px;
   border-radius: 4px;
+  transition: border-color .3s ease;
+
+  &:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
 }

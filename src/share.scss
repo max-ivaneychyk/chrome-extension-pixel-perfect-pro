@@ -1,0 +1,26 @@
+@mixin useCard() {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--grey-light-color);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+@mixin useScroll() {
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #b5c0c6c9;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    outline: 1px solid slategrey;
+  }
+}

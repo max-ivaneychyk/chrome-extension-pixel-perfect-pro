@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import './index.scss'
 import Slider from "../Slider";
 import Input from "../Input";
@@ -9,16 +9,15 @@ import { FaLock } from "react-icons/fa";
 
 
 const StopWheelScroll = ({ children }) => {
-  const ref = React.useRef(null)
+  const ref = useRef(null)
 
-  const handleWheel = React.useCallback(event => {
+  const handleWheel = useCallback(event => {
     event.stopPropagation();
   }, []);
 
   useEffect(() => {
     ref.current.addEventListener('wheel', handleWheel, true);
-    return () => ref.current.removeEventListener('wheel', handleWheel)
-  })
+  }, [ref, handleWheel])
 
   return (
     <div ref={ ref }>

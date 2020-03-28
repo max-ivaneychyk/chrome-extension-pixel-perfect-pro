@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './App.scss';
-import DropZone from "./components/DropZone";
 import Image from "./components/Image";
 import { HotKeys } from "react-hotkeys";
 import Controls from "./components/Controls";
@@ -74,6 +73,8 @@ function App() {
     })
   }, []);
 
+  console.log(file);
+
   const handleDeleteImage = name => {
     Store.remove(name);
     updateFiles(files.filter(({ name: id }) => id !== name))
@@ -110,10 +111,6 @@ function App() {
     merge({ x, y })
   }
 
-  useEffect(() => {
-    Store.getAll()
-  }, [])
-
   return (
     <div className="App-Extension">
       <HotKeys keyMap={ keyMap } handlers={ handlers } allowChanges>
@@ -125,10 +122,6 @@ function App() {
           opacity={ opacity / 100 }
           onChangePosition={ onChangePosition }
           file={ file }
-        />
-
-        <DropZone
-          onDrop={ handleAttachFiles }
         />
 
         <Controls
@@ -145,6 +138,7 @@ function App() {
           images={ files }
           selected={ file }
           onSelect={ handleSelectImage }
+          onDrop={ handleAttachFiles }
           onDelete={ handleDeleteImage }/>
       </HotKeys>
     </div>

@@ -70,7 +70,6 @@ fsAsync.lstat(DIR)
 
   fs.writeFile(fileName, JSON.stringify(json), function writeJSON(err) {
     if (err) return console.log(err);
-    console.log(JSON.stringify(json));
     console.log('writing to ' + fileName);
   });
 })

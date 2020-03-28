@@ -1,14 +1,14 @@
+@import "../../share";
 
 .Controls {
   display: flex;
   flex-direction: column;
   max-width: 140px;
-  padding: 8px;
   position: fixed;
   right: 0;
   top: 0;
 
-  background: rgba(255, 255, 255, 0.35);
+  @include useCard();
   box-shadow: rgba(100, 115, 130, 0.3) 0px 1px 4px 0px;
 
   .head {
