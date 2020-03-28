@@ -42,15 +42,17 @@ function App() {
     x: 0,
     y: 0,
     scale: 1,
-    opacity: 100
+    opacity: 100,
+    center: false
   });
-  const { x, y, opacity, scale } = settings;
+  const { x, y, opacity, scale, center } = settings;
 
   const { updateByKey, merge } = updateSettings;
   const updateScale = updateByKey('scale');
   const updateOpacity = updateByKey('opacity');
   const updateX = updateByKey('x');
   const updateY = updateByKey('y');
+  const updateAlignX = updateByKey('center');
 
   const handleAttachFiles = newFiles => {
     const images = newFiles.map(file => new ImageSource(
@@ -124,6 +126,7 @@ function App() {
           opacity={ opacity / 100 }
           onChangePosition={ onChangePosition }
           file={ file }
+          center={center}
         />
 
         <Controls
@@ -132,6 +135,8 @@ function App() {
           opacity={ opacity }
           scale={ scale }
           lock={ lock }
+          center={center}
+          onAlignCenter={updateAlignX}
           onLock={ updateLock }
           onChangeOpacity={ updateOpacity }
           onChangePosition={ onChangePosition }

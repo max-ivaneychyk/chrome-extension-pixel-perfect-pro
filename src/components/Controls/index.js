@@ -28,7 +28,7 @@ const StopWheelScroll = ({ children }) => {
   )
 }
 
-const Controls = ({ x, y, scale, opacity, lock, onChangeOpacity, onChangePosition, onChangeScale, onLock }) => {
+const Controls = ({ x, y, scale, opacity, lock, center, onChangeOpacity, onChangePosition, onAlignCenter, onChangeScale, onLock }) => {
   const [ controlsPosition, updateControlsPosition ] = useState({ x: 0, y: 0 })
 
   const onChange = ({ target }) => {
@@ -40,7 +40,7 @@ const Controls = ({ x, y, scale, opacity, lock, onChangeOpacity, onChangePositio
   };
 
   const handleAlignCenter = () => {
-
+    onAlignCenter(!center)
   };
 
   const handleScale = ({ target }) => {
@@ -69,10 +69,10 @@ const Controls = ({ x, y, scale, opacity, lock, onChangeOpacity, onChangePositio
           <IoIosMenu size={ 22 }/>
         </span>
 
-          {/*  <FaLock size={ 16 }/>*/ }
           <Icon
             Component={ AiOutlineColumnWidth }
             onClick={ handleAlignCenter }
+            active={ center }
           />
 
           <Icon

@@ -2,32 +2,38 @@ import React from "react";
 import Draggable from 'react-draggable';
 
 
-const Image = ({ x, y, scale, opacity, onChangePosition, lock, file, center = true}) => {
+const Image = ({ x, y, scale, opacity, onChangePosition, lock, file, center }) => {
   const style = {
     transform: `scale(${ scale }, ${ scale })`,
-    background: 'grey',
     position: 'relative',
-    textAlign: "left",
+    textAlign: center ? 'center' : "left",
     display: 'inline-block',
     opacity,
+    width: center ? '100vw' : ''
   };
 
   const imageWrapStyle = {
     position: 'absolute',
     top: '0',
     pointerEvents: lock ? 'none' : '',
-    left: '0'
+    left: '0',
   }
 
   const handleStop = (_, { x, y }) => {
-    onChangePosition({ x, y })
+    const state = { y };
+
+    if (!center) {
+      state.x = x;
+    }
+
+    onChangePosition(state)
   }
 
   return (
     <Draggable
-      position={ { x, y } }
+      position={ { x: center ? 0 : x, y } }
       scale={ scale }
-      axis={center ? 'y' : undefined}
+      axis={ center ? 'y' : 'both' }
       onStop={ handleStop }
       disabled={ lock }
     >
