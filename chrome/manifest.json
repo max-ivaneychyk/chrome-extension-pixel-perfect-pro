@@ -1,10 +1,14 @@
 {
-  "name": "Live Preload Links",
-  "description": "Select links on a page for preview",
-  "version": "0.6",
+  "name": "PixelPerfect",
+  "description": "",
+  "version": "0.7",
   "minimum_chrome_version": "16.0.884",
-  "permissions": ["<all_urls>",  "activeTab", "storage" ],
-  "browser_action": {"default_popup": "popup.html"},
+  "permissions": ["<all_urls>",  "activeTab", "tabs"],
+  "background" : {
+    "scripts" : ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {},
   "manifest_version": 2,
   "content_scripts": [
     {
