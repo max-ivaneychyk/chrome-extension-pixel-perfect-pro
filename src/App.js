@@ -19,6 +19,7 @@ const SETTINGS = {
   y: 0,
   scale: 1,
   opacity: 100,
+  inversion: 0,
   center: false
 }
 
@@ -42,8 +43,8 @@ const useLayerSettings = (name) => {
   const [ data, _update ] = useState(SETTINGS);
 
   useEffect(() => {
-   const settings = new StorageService().get(name, SETTINGS);
-   _update(settings);
+    const settings = new StorageService().get(name, SETTINGS);
+    _update(settings);
   }, [ name ])
 
   const update = state => {
@@ -59,13 +60,14 @@ const useLayerSettings = (name) => {
 };
 
 function App() {
+  // Images
   const [ files, updateFiles ] = useState([]);
   const [ file, updateFile ] = useState(null);
-  const [ lock, updateLock ] = useState(false)
-
+  // Options
+  const [ lock, updateLock ] = useState(false);
+  const [ visible, onChangeVisibility ] = useState(true);
   const [ settings, updateSettings ] = useLayerSettings(file ? file.name : '');
-
-  const { x, y, opacity, scale, center } = settings;
+  const { x, y, opacity, scale, center, inversion } = settings;
 
   const { updateByKey, merge } = updateSettings;
   const updateScale = updateByKey('scale');
@@ -73,6 +75,7 @@ function App() {
   const updateX = updateByKey('x');
   const updateY = updateByKey('y');
   const updateAlignX = updateByKey('center');
+  const onChangeInversion = updateByKey('inversion');
 
   const handleAttachFiles = newFiles => {
     const images = newFiles.map(file => new ImageSource(
@@ -143,12 +146,14 @@ function App() {
         <Image
           x={ x }
           y={ y }
+          inversion={ inversion }
+          visible={ visible }
           scale={ scale }
           lock={ lock }
           opacity={ opacity / 100 }
           onChangePosition={ onChangePosition }
           file={ file }
-          center={center}
+          center={ center }
         />
 
         <Controls
@@ -157,12 +162,16 @@ function App() {
           opacity={ opacity }
           scale={ scale }
           lock={ lock }
-          center={center}
-          onAlignCenter={updateAlignX}
+          center={ center }
+          visible={ visible }
+          inversion={ inversion }
+          onChangeInversion={ onChangeInversion }
+          onAlignCenter={ updateAlignX }
           onLock={ updateLock }
           onChangeOpacity={ updateOpacity }
           onChangePosition={ onChangePosition }
           onChangeScale={ updateScale }
+          onChangeVisibility={ onChangeVisibility }
         />
 
         <PreviewList

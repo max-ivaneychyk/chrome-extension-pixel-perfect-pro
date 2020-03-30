@@ -4,6 +4,7 @@
   // Variables
   --primary-color: #3f51b5;
   --grey-color: #d3d3d3;
+  --grey-icon-color: rgb(152, 159, 165);
   --grey-light-color: rgba(211, 211, 211, 0.48);
 
   --text-color: #d3d3d3;
@@ -31,11 +32,7 @@
     max-width: 100%;
   }
 
-  .IconWrap {
-    border: none;
-    outline: none;
-    background: transparent;
-  }
+
 
   button {
     opacity: .8;

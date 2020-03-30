@@ -11,7 +11,7 @@ const Icon = ({ onClick, Component, size = 16, active, className, title }) => {
       title={ title }>
       <Component
         size={ size }
-        color={ active ? 'var(--primary-color)' : 'var(--grey-color)' }
+        color={ active ? 'var(--primary-color)' : 'var(--grey-icon-color)' }
       />
     </button>
   )

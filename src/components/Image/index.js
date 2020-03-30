@@ -2,7 +2,7 @@ import React from "react";
 import Draggable from 'react-draggable';
 
 
-const Image = ({ x, y, scale, opacity, onChangePosition, lock, file, center }) => {
+const Image = ({ x, y, scale, visible, inversion, opacity, onChangePosition, lock, file, center }) => {
   const style = {
     transform: `scale(${ scale }, ${ scale })`,
     position: 'relative',
@@ -27,6 +27,10 @@ const Image = ({ x, y, scale, opacity, onChangePosition, lock, file, center }) =
     }
 
     onChangePosition(state)
+  };
+
+  if (!visible) {
+    return null
   }
 
   return (
@@ -40,7 +44,8 @@ const Image = ({ x, y, scale, opacity, onChangePosition, lock, file, center }) =
       <div style={ imageWrapStyle }>
         <div style={ style }>
           { file && <img src={ file.href } alt={ file.name } style={ {
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            filter: `invert(${ inversion }%)`
           } }/> }
         </div>
       </div>

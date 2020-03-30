@@ -3,6 +3,10 @@
 @include useScope() {
 
   .IconWrap {
+    border: none;
+    outline: none;
+    background: transparent;
+
     &:focus,
     &:hover {
       background: transparent;

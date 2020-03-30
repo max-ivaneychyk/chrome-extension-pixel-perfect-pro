@@ -4,10 +4,11 @@ import Slider from "../Slider";
 import Input from "../Input";
 import Label from "../Label";
 import Draggable from "react-draggable";
-import { IoIosMenu } from "react-icons/io";
-import { FaLock, FaUnlock } from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
+import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import Icon from "../Icon";
+import { joinClasses } from "../../utils";
 
 
 const StopWheelScroll = ({ children }) => {
@@ -28,8 +29,9 @@ const StopWheelScroll = ({ children }) => {
   )
 }
 
-const Controls = ({ x, y, scale, opacity, lock, center, onChangeOpacity, onChangePosition, onAlignCenter, onChangeScale, onLock }) => {
+const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onChangeOpacity, onChangeInversion, onChangePosition, onAlignCenter, onChangeScale, onLock, onChangeVisibility }) => {
   const [ controlsPosition, updateControlsPosition ] = useState({ x: 0, y: 0 })
+  const [ showAll, collapse ] = useState(true)
 
   const onChange = ({ target }) => {
     onChangePosition({ x, y, [target.name]: parseInt(target.value, 10) })
@@ -47,12 +49,16 @@ const Controls = ({ x, y, scale, opacity, lock, center, onChangeOpacity, onChang
     onChangeScale(parseInt(target.value, 10))
   }
 
-  const handleOpacity = ({ target }) => {
-    onChangeOpacity(parseInt(target.value, 10))
-  }
-
   const handleDragStop = (_, { x, y }) => {
     updateControlsPosition({ x, y })
+  }
+
+  const handleChangeVisible = () => {
+    onChangeVisibility(!visible)
+  }
+
+  const handleCollapse = () => {
+    collapse(!showAll)
   }
 
   return (
@@ -62,13 +68,30 @@ const Controls = ({ x, y, scale, opacity, lock, center, onChangeOpacity, onChang
       handle=".handleDraggable"
       bounds={ 'body' }
     >
-      <div className={ 'Controls' }>
+      <div className={ joinClasses('Controls', showAll && 'full') }>
+
         <div className={ 'head' }>
+          <Icon className={ 'handleDraggable' }
+                Component={IoIosMenu}
+                size={22}
+          />
 
-        <span className={ 'handleDraggable' }>
-          <IoIosMenu size={ 22 }/>
-        </span>
+          <Icon
+            Component={ visible ? FaRegEye : FaEyeSlash }
+            onClick={ handleChangeVisible }
+            active={ visible }
+            size={20}
+          />
 
+          <Icon
+            Component={ !showAll ? IoIosArrowDown : IoIosArrowUp }
+            onClick={ handleCollapse }
+            active={false}
+            size={22}
+          />
+        </div>
+
+        <div className={ 'head' }>
           <Icon
             Component={ AiOutlineColumnWidth }
             onClick={ handleAlignCenter }
@@ -85,23 +108,28 @@ const Controls = ({ x, y, scale, opacity, lock, center, onChangeOpacity, onChang
         <StopWheelScroll>
 
           <label>
+            <Label>Left</Label>
             <Input value={ x } name={ 'x' } onChange={ onChange } disabled={center}/>
-            <Label>X</Label>
           </label>
 
           <label>
+            <Label>Top</Label>
             <Input value={ y } name={ 'y' } onChange={ onChange }/>
-            <Label>Y</Label>
           </label>
 
           <label>
-            <Input value={ scale } step={ 1 } onChange={ handleScale }/>
             <Label>Scale</Label>
+            <Input value={ scale } step={ 1 } onChange={ handleScale }/>
           </label>
 
           <div className="slidecontainer">
-            <Label>Opacity - { (opacity / 100).toFixed(2) }</Label>
-            <Slider value={ opacity } onChange={ handleOpacity }/>
+            <Label>Opacity - { opacity }%</Label>
+            <Slider value={ opacity } onChange={ onChangeOpacity }/>
+          </div>
+
+          <div className="slidecontainer">
+            <Label>Inversion - { inversion }%</Label>
+            <Slider value={ inversion } onChange={ onChangeInversion }/>
           </div>
         </StopWheelScroll>
 

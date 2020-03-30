@@ -8,18 +8,45 @@
     position: fixed;
     right: 0;
     top: 0;
+    height: 280px;
+    transition: height 0.2s ease-in;
+    overflow: hidden;
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label,
+    .slidecontainer {
+      padding: 0 8px;
+    }
 
     @include useCard();
+    padding: 0;
     box-shadow: rgba(100, 115, 130, 0.3) 0px 1px 4px 0px;
 
     .head {
+      min-height: 30px;
       display: flex;
       justify-content: space-between;
+      padding: 0 8px;
+
+
+      + .head {
+        border-top: 1px solid var(--grey-light-color);
+        padding-top: 4px;
+      }
+    }
+
+    &:not(.full){
+      height: 30px;
     }
   }
 
   .Input {
-    margin: 4px 8px 4px 0;
+    margin: 4px 0 4px 0;
   }
 
   .handleDraggable {
