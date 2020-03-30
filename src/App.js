@@ -76,8 +76,6 @@ function App() {
     })
   }, []);
 
-  console.log(file);
-
   const handleDeleteImage = name => {
     Store.remove(name);
     updateFiles(files.filter(({ name: id }) => id !== name))

@@ -1,13 +1,19 @@
-.Input {
-  width: 60px;
-  height: 28px;
-  border: 1px solid  var(--grey-color);
-  padding: 0 4px;
-  border-radius: 4px;
-  transition: border-color .3s ease;
+@import "../../share";
 
-  &:focus {
-    border-color: var(--primary-color);
-    outline: none;
+@include useScope() {
+
+  .Input {
+    width: 60px;
+    height: 28px;
+    border: 1px solid var(--grey-color);
+    background: white;
+    padding: 0 4px;
+    border-radius: 4px;
+    transition: border-color .3s ease;
+
+    &:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
   }
 }

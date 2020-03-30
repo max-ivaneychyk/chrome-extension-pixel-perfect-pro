@@ -1,0 +1,11 @@
+@import "../../share";
+
+@include useScope() {
+
+  .IconWrap {
+    &:focus,
+    &:hover {
+      background: transparent;
+    }
+  }
+}

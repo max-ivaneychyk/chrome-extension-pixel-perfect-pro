@@ -1,22 +1,25 @@
+@import "../../share";
 
-.DropZone {
-  width: 216px;
-  min-width: 216px;
-  display: flex;
-  align-items: center;
-  border: 1px dashed grey;
-  margin-right: 8px;
-  text-align: center;
-  border-radius: 6px;
-  cursor: pointer;
-
-  > div {
-    height: 100%;
+@include useScope() {
+  .DropZone {
+    width: 216px;
+    min-width: 216px;
     display: flex;
     align-items: center;
-  }
+    border: 1px dashed grey;
+    margin-right: 8px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
 
-  p {
-    padding: 8px;
+    > div {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    p {
+      padding: 8px;
+    }
   }
 }

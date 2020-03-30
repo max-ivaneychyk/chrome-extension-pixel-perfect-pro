@@ -1,5 +1,6 @@
 import React from "react";
 import { joinClasses } from "../../utils";
+import './index.scss'
 
 
 const Icon = ({ onClick, Component, size = 16, active, className, title }) => {

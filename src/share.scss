@@ -24,3 +24,9 @@
     outline: 1px solid slategrey;
   }
 }
+
+@mixin useScope () {
+  #react-app-ext > .App-Extension {
+    @content;
+  }
+}

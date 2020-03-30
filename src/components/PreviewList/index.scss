@@ -1,73 +1,77 @@
 @import "../../share";
 
-.ToggleBtn {
-  position: absolute;
-  top: 0;
-  right:0;
-  transform: translateY(-100%);
-  border-color: transparent;
-  background: white;
-  border-radius: 6px;
-}
+@import "../../share";
 
-.PreviewList {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 100px;
-  box-shadow: rgba(100, 115, 130, 0.15) 0px -1px 4px 0px;
-  width: 100%;
-  display: flex;
-  transform: translateY(0);
-  transition: transform .2s ease;
-  @include useCard();
-
-  &.hidden {
-    transform: translateY(100%);
-  }
-}
-
-.Preview {
-  width: 102px;
-  min-width: 102px;
-  height: 100%;
-  position: relative;
-  margin-right: 8px;
-  cursor: pointer;
-
-  img {
-    border: 3px solid transparent;
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  button {
+@include useScope() {
+  .ToggleBtn {
     position: absolute;
-    right: 0;
     top: 0;
-    padding: 0;
-    margin: 4px;
+    right: 0;
+    transform: translateY(-100%);
+    border-color: transparent;
+    background: white;
+    border-radius: 6px;
   }
 
-  svg {
-    opacity: 0;
+  .PreviewList {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    box-shadow: rgba(100, 115, 130, 0.15) 0px -1px 4px 0px;
+    width: 100%;
+    display: flex;
+    transform: translateY(0);
+    transition: transform .2s ease;
+    @include useCard();
+
+    &.hidden {
+      transform: translateY(100%);
+    }
   }
 
-  &.active img {
-    border-color: var(--primary-color);
+  .Preview {
+    width: 102px;
+    min-width: 102px;
+    height: 100%;
+    position: relative;
+    margin-right: 8px;
+    cursor: pointer;
+
+    img {
+      border: 3px solid transparent;
+      border-radius: 6px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 0;
+      margin: 4px;
+    }
+
+    svg {
+      opacity: 0;
+    }
+
+    &.active img {
+      border-color: var(--primary-color);
+    }
+
+    &:hover svg {
+      opacity: 1;
+    }
   }
 
-  &:hover svg {
-    opacity: 1;
+  .ScrollArea {
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    @include useScroll()
   }
-}
-
-.ScrollArea {
-  display: flex;
-  overflow-y: hidden;
-  overflow-x: auto;
-
-  @include useScroll()
 }

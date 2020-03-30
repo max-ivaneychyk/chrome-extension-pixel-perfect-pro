@@ -1,26 +1,28 @@
 @import "../../share";
 
-.Controls {
-  display: flex;
-  flex-direction: column;
-  max-width: 140px;
-  position: fixed;
-  right: 0;
-  top: 0;
-
-  @include useCard();
-  box-shadow: rgba(100, 115, 130, 0.3) 0px 1px 4px 0px;
-
-  .head {
+@include useScope() {
+  .Controls {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    max-width: 140px;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    @include useCard();
+    box-shadow: rgba(100, 115, 130, 0.3) 0px 1px 4px 0px;
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+    }
   }
-}
 
-.Input {
-  margin: 4px 8px 4px 0;
-}
+  .Input {
+    margin: 4px 8px 4px 0;
+  }
 
-.handleDraggable {
-  cursor: move;
+  .handleDraggable {
+    cursor: move;
+  }
 }

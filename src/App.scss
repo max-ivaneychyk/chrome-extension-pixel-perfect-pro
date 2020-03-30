@@ -1,41 +1,59 @@
+@import "./share";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.App-Extension {
-  z-index: 999999999;
-  position: absolute;
-  top: 0;
-
-}
-
-.IconWrap {
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-button {
-  opacity: .8;
-
-  &:not([disabled]) {
-    cursor: pointer;
-  }
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-
-:root {
+@include useScope() {
+  // Variables
   --primary-color: #3f51b5;
   --grey-color: #d3d3d3;
   --grey-light-color: rgba(211, 211, 211, 0.48);
 
   --text-color: #d3d3d3;
+
+  // App layer
+  z-index: 999999999;
+  position: absolute;
+  top: 0;
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+    min-width: auto;
+    min-height: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .IconWrap {
+    border: none;
+    outline: none;
+    background: transparent;
+  }
+
+  button {
+    opacity: .8;
+    // Reset
+    text-rendering: auto;
+    color: buttontext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+
+    font-weight: 400;
+    font-size: 14px;
+
+    &:not([disabled]) {
+      cursor: pointer;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 
 }
