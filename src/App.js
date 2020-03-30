@@ -5,6 +5,7 @@ import { HotKeys } from "react-hotkeys";
 import Controls from "./components/Controls";
 import * as Store from './store'
 import PreviewList from "./components/PreviewList";
+import StorageService from "./services/StorageService";
 
 const keyMap = {
   TO_LEFT: [ "left", 'a' ],
@@ -13,6 +14,13 @@ const keyMap = {
   TO_DOWN: [ "down", 's' ],
 };
 
+const SETTINGS = {
+  x: 0,
+  y: 0,
+  scale: 1,
+  opacity: 100,
+  center: false
+}
 
 class ImageSource {
   constructor(file, name) {
@@ -24,13 +32,30 @@ class ImageSource {
   static getBlobLink = blob => {
     return URL.createObjectURL(blob)
   }
+
+  static createName = (filename) => {
+    return `date=${ Date.now() }&name=${ filename }`
+  }
 }
 
-const useSettings = (initialState) => {
-  const [ data, update ] = useState(initialState);
+const useLayerSettings = (name) => {
+  const [ data, _update ] = useState(SETTINGS);
+
+  useEffect(() => {
+   const settings = new StorageService().get(name, SETTINGS);
+   _update(settings);
+  }, [ name ])
+
+  const update = state => {
+    new StorageService().set(name, state)
+    _update(state);
+  };
+
   const updateByKey = key => (val) => update({ ...data, [key]: val });
   const merge = newState => update({ ...data, ...newState });
-  return [ data, { updateByKey, merge } ]
+
+  return [ data, { updateByKey, merge } ];
+
 };
 
 function App() {
@@ -38,13 +63,8 @@ function App() {
   const [ file, updateFile ] = useState(null);
   const [ lock, updateLock ] = useState(false)
 
-  const [ settings, updateSettings ] = useSettings({
-    x: 0,
-    y: 0,
-    scale: 1,
-    opacity: 100,
-    center: false
-  });
+  const [ settings, updateSettings ] = useLayerSettings(file ? file.name : '');
+
   const { x, y, opacity, scale, center } = settings;
 
   const { updateByKey, merge } = updateSettings;
@@ -56,7 +76,7 @@ function App() {
 
   const handleAttachFiles = newFiles => {
     const images = newFiles.map(file => new ImageSource(
-      file, `${ Date.now() }:::${ file.name }`
+      file, ImageSource.createName(file.name)
       )
     )
 
@@ -66,6 +86,10 @@ function App() {
       ...files,
       ...images
     ]);
+
+    if (!file) {
+      updateFile(images[0])
+    }
   };
 
   useEffect(() => {

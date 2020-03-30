@@ -85,7 +85,7 @@ const Controls = ({ x, y, scale, opacity, lock, center, onChangeOpacity, onChang
         <StopWheelScroll>
 
           <label>
-            <Input value={ x } name={ 'x' } onChange={ onChange }/>
+            <Input value={ x } name={ 'x' } onChange={ onChange } disabled={center}/>
             <Label>X</Label>
           </label>
 
