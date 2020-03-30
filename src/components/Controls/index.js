@@ -7,6 +7,7 @@ import Draggable from "react-draggable";
 import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { AiOutlineColumnWidth } from "react-icons/ai";
+import { GoArrowBoth } from "react-icons/go";
 import Icon from "../Icon";
 import { joinClasses } from "../../utils";
 
@@ -84,6 +85,12 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
           />
 
           <Icon
+            Component={ lock ? FaLock : FaUnlock }
+            active={ lock }
+            onClick={ handleLock }
+          />
+
+          <Icon
             Component={ !showAll ? IoIosArrowDown : IoIosArrowUp }
             onClick={ handleCollapse }
             active={false}
@@ -91,24 +98,17 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
           />
         </div>
 
-        <div className={ 'head' }>
-          <Icon
-            Component={ AiOutlineColumnWidth }
-            onClick={ handleAlignCenter }
-            active={ center }
-          />
-
-          <Icon
-            Component={ lock ? FaLock : FaUnlock }
-            active={ lock }
-            onClick={ handleLock }
-          />
-        </div>
-
         <StopWheelScroll>
 
           <label>
             <Label>Left</Label>
+            <Icon
+              Component={ GoArrowBoth }
+              size={20}
+              title={'Align center'}
+              onClick={ handleAlignCenter }
+              active={ center }
+            />
             <Input value={ x } name={ 'x' } onChange={ onChange } disabled={center}/>
           </label>
 

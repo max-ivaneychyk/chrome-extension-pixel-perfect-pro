@@ -4,11 +4,11 @@
   .Controls {
     display: flex;
     flex-direction: column;
-    max-width: 140px;
+    max-width: 152px;
     position: fixed;
     right: 0;
     top: 0;
-    height: 280px;
+    height: 250px;
     transition: height 0.2s ease-in;
     overflow: hidden;
 
@@ -32,15 +32,11 @@
       display: flex;
       justify-content: space-between;
       padding: 0 8px;
-
-
-      + .head {
-        border-top: 1px solid var(--grey-light-color);
-        padding-top: 4px;
-      }
+      border-bottom: 1px solid var(--grey-light-color);
+      margin-bottom: 8px;
     }
 
-    &:not(.full){
+    &:not(.full) {
       height: 30px;
     }
   }
