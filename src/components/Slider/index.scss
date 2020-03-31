@@ -13,11 +13,13 @@
     outline: none;
     opacity: 0.8;
     -webkit-transition: .2s;
-    transition: opacity .2s;
+    transition: all .2s ease;
   }
 
+  .slider:focus,
   .slider:hover {
     opacity: 1;
+    background: var(--primary-color);
 
     &::-webkit-slider-thumb {
       width: 20px;
