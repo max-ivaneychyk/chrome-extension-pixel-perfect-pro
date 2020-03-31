@@ -27,7 +27,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
   const handleToggle = () => toggle(!isVisible);
 
   return (
-    <div className={ joinClasses('PreviewList', !isVisible ? 'hidden' : '') }>
+    <div className={ joinClasses('PreviewList', !isVisible ? 'hidden-list' : '') }>
 
       <Icon
         size={ 26 }
@@ -48,7 +48,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
               <div
                 className={ joinClasses(
                   'Preview',
-                  selected === images[index] ? 'active' : ''
+                  selected === images[index] ? 'active-layer' : ''
                 ) }
                 key={ href }
                 onClick={ () => onSelect(images[index]) }>

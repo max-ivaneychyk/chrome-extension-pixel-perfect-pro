@@ -6,7 +6,6 @@ import Label from "../Label";
 import Draggable from "react-draggable";
 import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
-import { AiOutlineColumnWidth } from "react-icons/ai";
 import { GoArrowBoth } from "react-icons/go";
 import Icon from "../Icon";
 import { joinClasses } from "../../utils";
@@ -34,8 +33,12 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
   const [ controlsPosition, updateControlsPosition ] = useState({ x: 0, y: 0 })
   const [ showAll, collapse ] = useState(true)
 
-  const onChange = ({ target }) => {
-    onChangePosition({ x, y, [target.name]: parseInt(target.value, 10) })
+  const onChange = ({ target: { value, name } }) => {
+    onChangePosition({
+      x,
+      y,
+      [name]: parseInt(value || 0, 10)
+    })
   };
 
   const handleLock = () => {
@@ -46,8 +49,8 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
     onAlignCenter(!center)
   };
 
-  const handleScale = ({ target }) => {
-    onChangeScale(parseInt(target.value, 10))
+  const handleScale = ({ target: { value } }) => {
+    onChangeScale(parseFloat(value || 0))
   }
 
   const handleDragStop = (_, { x, y }) => {
@@ -73,15 +76,15 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
 
         <div className={ 'head' }>
           <Icon className={ 'handleDraggable' }
-                Component={IoIosMenu}
-                size={22}
+                Component={ IoIosMenu }
+                size={ 22 }
           />
 
           <Icon
             Component={ visible ? FaRegEye : FaEyeSlash }
             onClick={ handleChangeVisible }
             active={ visible }
-            size={20}
+            size={ 20 }
           />
 
           <Icon
@@ -93,8 +96,8 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
           <Icon
             Component={ !showAll ? IoIosArrowDown : IoIosArrowUp }
             onClick={ handleCollapse }
-            active={false}
-            size={22}
+            active={ false }
+            size={ 22 }
           />
         </div>
 
@@ -104,12 +107,12 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
             <Label>Left</Label>
             <Icon
               Component={ GoArrowBoth }
-              size={20}
-              title={'Align center'}
+              size={ 20 }
+              title={ 'Align center' }
               onClick={ handleAlignCenter }
               active={ center }
             />
-            <Input value={ x } name={ 'x' } onChange={ onChange } disabled={center}/>
+            <Input value={ x } name={ 'x' } onChange={ onChange } disabled={ center }/>
           </label>
 
           <label>
@@ -119,7 +122,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
 
           <label>
             <Label>Scale</Label>
-            <Input value={ scale } step={ 1 } onChange={ handleScale }/>
+            <Input value={ scale } step={ .1 } onChange={ handleScale }/>
           </label>
 
           <div className="slidecontainer">

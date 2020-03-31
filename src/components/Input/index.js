@@ -2,7 +2,7 @@ import { joinClasses } from "../../utils";
 import React from "react";
 import './index.scss'
 
-const Input = ({ value, onChange, className, step, type = 'number', disabled, name }) => {
+const Input = ({ value, onChange, min, max, className, step, type = 'number', disabled, name }) => {
   return (
     <input
       name={ name }
@@ -11,6 +11,8 @@ const Input = ({ value, onChange, className, step, type = 'number', disabled, na
       type={ type }
       disabled={ disabled }
       step={ step }
+      min={ min }
+      max={ max }
       onChange={ onChange }
     />
   )

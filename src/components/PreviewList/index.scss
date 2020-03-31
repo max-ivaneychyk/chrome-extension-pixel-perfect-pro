@@ -25,7 +25,7 @@
     transition: transform .2s ease;
     @include useCard();
 
-    &.hidden {
+    &.hidden-list {
       transform: translateY(100%);
     }
   }
@@ -58,7 +58,7 @@
       opacity: 0;
     }
 
-    &.active img {
+    &.active-layer img {
       border-color: var(--primary-color);
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.scss';
 import Image from "./components/Image";
 import { HotKeys } from "react-hotkeys";
@@ -77,6 +77,12 @@ function App() {
   const updateAlignX = updateByKey('center');
   const onChangeInversion = updateByKey('inversion');
 
+  const autoSelectFirst = useCallback((images) => {
+    if (file) return;
+
+    updateFile(images[0] || null)
+  }, [ file ]);
+
   const handleAttachFiles = newFiles => {
     const images = newFiles.map(file => new ImageSource(
       file, ImageSource.createName(file.name)
@@ -90,22 +96,22 @@ function App() {
       ...images
     ]);
 
-    if (!file) {
-      updateFile(images[0])
-    }
+    autoSelectFirst(images)
   };
 
   useEffect(() => {
     Store.getAll().then(files => {
       const images = files.map(([ key, file ]) => new ImageSource(file, key))
       updateFiles(images);
-      updateFile(images[0] || null)
-    })
-  }, []);
+      autoSelectFirst(images)
+    });
+  }, [ autoSelectFirst ]);
+
 
   const handleDeleteImage = name => {
     Store.remove(name);
-    updateFiles(files.filter(({ name: id }) => id !== name))
+    updateFiles(files.filter(({ name: id }) => id !== name));
+    autoSelectFirst(files);
   }
 
   const handleSelectImage = (file) => {
@@ -143,36 +149,40 @@ function App() {
     <div className="App-Extension">
       <HotKeys keyMap={ keyMap } handlers={ handlers } allowChanges>
 
-        <Image
-          x={ x }
-          y={ y }
-          inversion={ inversion }
-          visible={ visible }
-          scale={ scale }
-          lock={ lock }
-          opacity={ opacity / 100 }
-          onChangePosition={ onChangePosition }
-          file={ file }
-          center={ center }
-        />
+        {
+          !!files.length && <>
+            <Image
+              x={ x }
+              y={ y }
+              inversion={ inversion }
+              visible={ visible }
+              scale={ scale }
+              lock={ lock }
+              opacity={ opacity / 100 }
+              onChangePosition={ onChangePosition }
+              file={ file }
+              center={ center }
+            />
 
-        <Controls
-          x={ x }
-          y={ y }
-          opacity={ opacity }
-          scale={ scale }
-          lock={ lock }
-          center={ center }
-          visible={ visible }
-          inversion={ inversion }
-          onChangeInversion={ onChangeInversion }
-          onAlignCenter={ updateAlignX }
-          onLock={ updateLock }
-          onChangeOpacity={ updateOpacity }
-          onChangePosition={ onChangePosition }
-          onChangeScale={ updateScale }
-          onChangeVisibility={ onChangeVisibility }
-        />
+            <Controls
+              x={ x }
+              y={ y }
+              opacity={ opacity }
+              scale={ scale }
+              lock={ lock }
+              center={ center }
+              visible={ visible }
+              inversion={ inversion }
+              onChangeInversion={ onChangeInversion }
+              onAlignCenter={ updateAlignX }
+              onLock={ updateLock }
+              onChangeOpacity={ updateOpacity }
+              onChangePosition={ onChangePosition }
+              onChangeScale={ updateScale }
+              onChangeVisibility={ onChangeVisibility }
+            />
+          </>
+        }
 
         <PreviewList
           images={ files }
