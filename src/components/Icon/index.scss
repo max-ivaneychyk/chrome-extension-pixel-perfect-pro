@@ -3,13 +3,23 @@
 @include useScope() {
 
   .IconWrap {
-    border: none;
+    border: 1px solid transparent;
     outline: none;
     background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 2px;
+    min-width: 28px;
 
     &:focus,
     &:hover {
       background: transparent;
+    }
+
+    &:focus {
+      border: 1px solid var(--primary-color-60);
     }
   }
 }

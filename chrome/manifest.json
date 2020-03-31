@@ -1,7 +1,7 @@
 {
   "name": "PixelPerfect",
   "description": "",
-  "version": "0.72",
+  "version": "0.73",
   "minimum_chrome_version": "16.0.884",
   "permissions": ["<all_urls>",  "activeTab", "tabs"],
   "background" : {

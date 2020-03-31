@@ -61,6 +61,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                     event.stopPropagation();
                     onDelete(name);
                   } }
+                  inactiveColor={'var(--danger-color)'}
                   Component={ IoIosCloseCircleOutline }
                 />
               </div>

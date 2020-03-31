@@ -3,7 +3,7 @@ import { joinClasses } from "../../utils";
 import './index.scss'
 
 
-const Icon = ({ onClick, Component, size = 16, active, className, style, title }) => {
+const Icon = ({ onClick, Component, size = 16, active, className, style, title, inactiveColor = 'var(--grey-icon-color)', activeColor = 'var(--primary-color)' }) => {
   return (
     <button
       style={ style }
@@ -12,7 +12,7 @@ const Icon = ({ onClick, Component, size = 16, active, className, style, title }
       title={ title }>
       <Component
         size={ size }
-        color={ active ? 'var(--primary-color)' : 'var(--grey-icon-color)' }
+        color={ active ? activeColor : inactiveColor }
       />
     </button>
   )

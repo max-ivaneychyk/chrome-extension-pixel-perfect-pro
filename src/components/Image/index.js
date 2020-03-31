@@ -6,6 +6,7 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
   const style = {
     transform: `scale(${ scale }, ${ scale }) translateY(${ alignVertical ? -50 : 0 }%)`,
     position: 'relative',
+    transformOrigin: alignVertical ? 'center top'  : '',
     textAlign: center ? 'center' : "left",
     display: 'inline-block',
     top: alignVertical ? '50vh' : '',

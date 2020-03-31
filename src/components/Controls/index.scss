@@ -12,6 +12,10 @@
     transition: height 0.2s ease-in;
     overflow: hidden;
 
+    .handleDraggable {
+      cursor: move;
+    }
+
     label {
       display: flex;
       justify-content: space-between;
@@ -37,7 +41,7 @@
     }
 
     &:not(.full) {
-      height: 30px;
+      height: 32px;
     }
   }
 
