@@ -8,7 +8,7 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { GoArrowBoth } from "react-icons/go";
 import Icon from "../Icon";
-import { joinClasses } from "../../utils";
+import { joinClasses, toDecimal, toNumber } from "../../utils";
 
 
 const StopWheelScroll = ({ children }) => {
@@ -37,7 +37,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
     onChangePosition({
       x,
       y,
-      [name]: parseInt(value || 0, 10)
+      [name]: toNumber(value)
     })
   };
 
@@ -50,11 +50,11 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
   };
 
   const handleScale = ({ target: { value } }) => {
-    onChangeScale(parseFloat(value || 0))
+    onChangeScale(toDecimal(value))
   }
 
   const handleDragStop = (_, { x, y }) => {
-    updateControlsPosition({ x, y })
+    updateControlsPosition({ x: toNumber(x), y: toNumber(y) })
   }
 
   const handleChangeVisible = () => {
