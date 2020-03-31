@@ -96,22 +96,30 @@ function App() {
       ...images
     ]);
 
-    autoSelectFirst(images)
+    if (!file) {
+      updateFile(images[0])
+    }
   };
 
   useEffect(() => {
     Store.getAll().then(files => {
       const images = files.map(([ key, file ]) => new ImageSource(file, key))
       updateFiles(images);
-      autoSelectFirst(images)
+      updateFile(images[0] || null)
     });
-  }, [ autoSelectFirst ]);
+  }, []);
 
 
   const handleDeleteImage = name => {
+    const newFiles = files.filter(({ name: id }) => id !== name);
+
     Store.remove(name);
-    updateFiles(files.filter(({ name: id }) => id !== name));
-    autoSelectFirst(files);
+    new StorageService().remove(name)
+    updateFiles(newFiles);
+
+    if (file && file.name === name) {
+      updateFile(newFiles[0] || null)
+    }
   }
 
   const handleSelectImage = (file) => {

@@ -50,14 +50,17 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                   'Preview',
                   selected === images[index] ? 'active-layer' : ''
                 ) }
-                key={ href }
+                key={ name }
                 onClick={ () => onSelect(images[index]) }>
 
                 <img src={ href } alt={ '' }/>
 
                 <Icon
                   size={ 26 }
-                  onClick={ () => onDelete(name) }
+                  onClick={ (event) => {
+                    event.stopPropagation();
+                    onDelete(name);
+                  } }
                   Component={ IoIosCloseCircleOutline }
                 />
               </div>
