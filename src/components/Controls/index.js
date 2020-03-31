@@ -6,7 +6,7 @@ import Label from "../Label";
 import Draggable from "react-draggable";
 import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
-import { GoArrowBoth } from "react-icons/go";
+import { MdVerticalAlignCenter } from "react-icons/md";
 import Icon from "../Icon";
 import { joinClasses, toDecimal, toNumber } from "../../utils";
 
@@ -29,7 +29,7 @@ const StopWheelScroll = ({ children }) => {
   )
 }
 
-const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onChangeOpacity, onChangeInversion, onChangePosition, onAlignCenter, onChangeScale, onLock, onChangeVisibility }) => {
+const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alignVertical, onChangeOpacity, onAlignVerticalCenter, onChangeInversion, onChangePosition, onAlignCenter, onChangeScale, onLock, onChangeVisibility }) => {
   const [ controlsPosition, updateControlsPosition ] = useState({ x: 0, y: 0 })
   const [ showAll, collapse ] = useState(true)
 
@@ -47,6 +47,10 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
 
   const handleAlignCenter = () => {
     onAlignCenter(!center)
+  };
+
+  const handleAlignVertical = () => {
+    onAlignVerticalCenter(!alignVertical)
   };
 
   const handleScale = ({ target: { value } }) => {
@@ -106,18 +110,26 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, onCh
           <label>
             <Label>Left</Label>
             <Icon
-              Component={ GoArrowBoth }
-              size={ 20 }
+              Component={ MdVerticalAlignCenter }
+              size={ 22 }
               title={ 'Align center' }
               onClick={ handleAlignCenter }
               active={ center }
+              style={ { transform: 'rotate(90deg)' } }
             />
             <Input value={ x } name={ 'x' } onChange={ onChange } disabled={ center }/>
           </label>
 
           <label>
             <Label>Top</Label>
-            <Input value={ y } name={ 'y' } onChange={ onChange }/>
+            <Icon
+              Component={ MdVerticalAlignCenter }
+              size={ 22 }
+              title={ 'Align vertical center' }
+              onClick={ handleAlignVertical }
+              active={ alignVertical }
+            />
+            <Input value={ y } name={ 'y' } onChange={ onChange } disabled={ alignVertical }/>
           </label>
 
           <label>

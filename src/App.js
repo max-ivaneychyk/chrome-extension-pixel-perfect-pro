@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.scss';
 import Image from "./components/Image";
 import { HotKeys } from "react-hotkeys";
@@ -20,7 +20,8 @@ const SETTINGS = {
   scale: 1,
   opacity: 100,
   inversion: 0,
-  center: false
+  center: false,
+  alignVertical: false
 }
 
 class ImageSource {
@@ -67,7 +68,7 @@ function App() {
   const [ lock, updateLock ] = useState(false);
   const [ visible, onChangeVisibility ] = useState(true);
   const [ settings, updateSettings ] = useLayerSettings(file ? file.name : '');
-  const { x, y, opacity, scale, center, inversion } = settings;
+  const { x, y, opacity, scale, center, inversion, alignVertical } = settings;
 
   const { updateByKey, merge } = updateSettings;
   const updateScale = updateByKey('scale');
@@ -76,12 +77,6 @@ function App() {
   const updateY = updateByKey('y');
   const updateAlignX = updateByKey('center');
   const onChangeInversion = updateByKey('inversion');
-
-  const autoSelectFirst = useCallback((images) => {
-    if (file) return;
-
-    updateFile(images[0] || null)
-  }, [ file ]);
 
   const handleAttachFiles = newFiles => {
     const images = newFiles.map(file => new ImageSource(
@@ -166,6 +161,7 @@ function App() {
               visible={ visible }
               scale={ scale }
               lock={ lock }
+              alignVertical={ alignVertical }
               opacity={ opacity / 100 }
               onChangePosition={ onChangePosition }
               file={ file }
@@ -180,6 +176,7 @@ function App() {
               lock={ lock }
               center={ center }
               visible={ visible }
+              alignVertical={ alignVertical }
               inversion={ inversion }
               onChangeInversion={ onChangeInversion }
               onAlignCenter={ updateAlignX }
@@ -188,6 +185,7 @@ function App() {
               onChangePosition={ onChangePosition }
               onChangeScale={ updateScale }
               onChangeVisibility={ onChangeVisibility }
+              onAlignVerticalCenter={updateByKey('alignVertical')}
             />
           </>
         }

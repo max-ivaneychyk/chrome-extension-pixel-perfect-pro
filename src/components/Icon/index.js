@@ -3,9 +3,10 @@ import { joinClasses } from "../../utils";
 import './index.scss'
 
 
-const Icon = ({ onClick, Component, size = 16, active, className, title }) => {
+const Icon = ({ onClick, Component, size = 16, active, className, style, title }) => {
   return (
     <button
+      style={ style }
       onClick={ onClick }
       className={ joinClasses('IconWrap', className) }
       title={ title }>

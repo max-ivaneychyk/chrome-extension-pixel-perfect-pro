@@ -2,12 +2,13 @@ import React from "react";
 import Draggable from 'react-draggable';
 
 
-const Image = ({ x, y, scale, visible, inversion, opacity, onChangePosition, lock, file, center }) => {
+const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChangePosition, lock, file, center }) => {
   const style = {
-    transform: `scale(${ scale }, ${ scale })`,
+    transform: `scale(${ scale }, ${ scale }) translateY(${ alignVertical ? -50 : 0 }%)`,
     position: 'relative',
     textAlign: center ? 'center' : "left",
     display: 'inline-block',
+    top: alignVertical ? '50vh' : '',
     opacity,
     width: center ? '100vw' : ''
   };
@@ -20,10 +21,14 @@ const Image = ({ x, y, scale, visible, inversion, opacity, onChangePosition, loc
   }
 
   const handleStop = (_, { x, y }) => {
-    const state = { y };
+    const state = {};
 
     if (!center) {
       state.x = x;
+    }
+
+    if (!alignVertical) {
+      state.y = y;
     }
 
     onChangePosition(state)
@@ -33,11 +38,26 @@ const Image = ({ x, y, scale, visible, inversion, opacity, onChangePosition, loc
     return null
   }
 
+  const getAxis = () => {
+    if (center && alignVertical) {
+      return 'none'
+    } else if (alignVertical) {
+      return 'x'
+    } else if (center) {
+      return 'y'
+    }
+
+    return 'both'
+  };
+
   return (
     <Draggable
-      position={ { x: center ? 0 : x, y } }
+      position={ {
+        x: center ? 0 : x,
+        y: alignVertical ? 0 : y
+      } }
       scale={ scale }
-      axis={ center ? 'y' : 'both' }
+      axis={ getAxis() }
       onStop={ handleStop }
       disabled={ lock }
     >
