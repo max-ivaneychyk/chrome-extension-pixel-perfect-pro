@@ -32,9 +32,13 @@
     width: auto;
     height: auto;
     max-width: 100%;
+    font-weight: 400;
+    font-size: 14px;
   }
 
-
+  img {
+    max-height: 100%;
+  }
 
   button {
     opacity: .8;
@@ -48,9 +52,6 @@
     text-shadow: none;
     display: inline-block;
     text-align: center;
-
-    font-weight: 400;
-    font-size: 14px;
 
     &:not([disabled]) {
       cursor: pointer;

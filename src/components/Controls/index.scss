@@ -27,6 +27,10 @@
       padding: 0 8px;
     }
 
+    .slidecontainer {
+      margin-top: 4px;
+    }
+
     @include useCard();
     padding: 0;
     box-shadow: rgba(100, 115, 130, 0.3) 0px 1px 4px 0px;

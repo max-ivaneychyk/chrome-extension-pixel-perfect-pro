@@ -1,33 +1,65 @@
 const installedTabs = {};
 
-chrome.browserAction.onClicked.addListener(function (tab) {
+const injectJS = (tab) => {
+  console.log('inject');
 
-  if (!installedTabs[tab.id]) {
+  chrome.tabs.insertCSS({
+    file: 'all.css'
+  });
 
-    chrome.tabs.insertCSS({
-      file: 'all.css'
-    });
+  chrome.tabs.executeScript({
+    file: 'page.js'
+  });
 
-    chrome.tabs.executeScript({
-      file: 'page.js'
-    });
+  chrome.tabs.executeScript({
+    file: 'runtime.js'
+  });
 
-    chrome.tabs.executeScript({
-      file: 'runtime.js'
-    });
+  chrome.tabs.executeScript({
+    file: 'chunk.js'
+  });
 
-    chrome.tabs.executeScript({
-      file: 'chunk.js'
-    });
+  chrome.tabs.executeScript({
+    file: 'main.js'
+  });
 
-    chrome.tabs.executeScript({
-      file: 'main.js'
-    });
+  installedTabs[tab.id] = {
+    visible: true,
+    url: tab.url
+  };
+}
 
-    installedTabs[tab.id] = true;
+chrome.tabs.onUpdated.addListener(function(tabId, _, tab){
+  if (tab.status !== 'complete') {
     return;
   }
 
+  if (installedTabs[tabId] && tab.url === installedTabs[tabId].url && installedTabs[tabId].visible) {
+
+    injectJS(tab);
+    return;
+  }
+
+  console.log('reset', tabId, tab);
+  installedTabs[tabId] = null;
+});
+
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+
+  if (!installedTabs[tab.id]) {
+    injectJS(tab);
+
+    installedTabs[tab.id] = {
+      visible: true,
+      url: tab.url
+    };
+
+    return;
+  }
+
+  console.log('toggle');
+  installedTabs[tab.id].visible = !installedTabs[tab.id].visible;
   chrome.tabs.executeScript({
     code: `
     ;(function() {

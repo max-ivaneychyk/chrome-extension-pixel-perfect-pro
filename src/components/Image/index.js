@@ -1,12 +1,13 @@
 import React from "react";
 import Draggable from 'react-draggable';
+import { toNumber } from "../../utils";
 
 
 const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChangePosition, lock, file, center }) => {
   const style = {
     transform: `scale(${ scale }, ${ scale }) translateY(${ alignVertical ? -50 : 0 }%)`,
     position: 'relative',
-    transformOrigin: alignVertical ? 'center top'  : '',
+    transformOrigin: alignVertical ? 'center top' : '',
     textAlign: center ? 'center' : "left",
     display: 'inline-block',
     top: alignVertical ? '50vh' : '',
@@ -15,7 +16,7 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
   };
 
   const imageWrapStyle = {
-    position: 'absolute',
+    position: alignVertical ? 'fixed' : 'absolute',
     top: '0',
     pointerEvents: lock ? 'none' : '',
     left: '0',
@@ -25,11 +26,11 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
     const state = {};
 
     if (!center) {
-      state.x = x;
+      state.x = toNumber(x);
     }
 
     if (!alignVertical) {
-      state.y = y;
+      state.y = toNumber(y);
     }
 
     onChangePosition(state)
