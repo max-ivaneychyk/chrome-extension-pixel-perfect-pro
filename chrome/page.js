@@ -1,8 +1,6 @@
-
-let frame = document.createElement('div');
-
-frame.id = 'react-app-ext'
-frame.style.display = 'none'
-
-document.body.appendChild(frame);
+;(function () {
+  const frame = document.createElement('div');
+  frame.id = 'react-app-ext'
+  document.body.appendChild(frame);
+})();
 

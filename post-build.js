@@ -48,29 +48,19 @@ fsAsync.lstat(DIR)
   }
 })
 .then(({ styles, scripts }) => {
+  const newNames = [ 'runtime.js', 'chunk.js', 'main.js', 'all.css' ];
   const promises = [ ...scripts, ...styles ].map(
-    link => fsAsync.copyFile(
+    (link, index) => fsAsync.copyFile(
       './build' + link,
-      DIR + '/' + link.replace(/\//g, "$"))
+      DIR + '/' + newNames[index])
   );
 
   const files = {
-    js: scripts.map(link => link.replace(/\//g, "$")),
-    css: styles.map(link => link.replace(/\//g, "$")),
+    js: [ 'runtime.js', 'chunk.js', 'main.js' ],
+    css: [ 'all.css' ]
   }
 
   return Promise.all(promises).then(() => files)
 })
-.then(({js, css}) => {
-  const fileName = DIR + '/manifest.json';
-  const json = require(fileName);
 
-  json.content_scripts[0].js.push(...js)
-  json.content_scripts[0].css.push(...css)
-
-  fs.writeFile(fileName, JSON.stringify(json), function writeJSON(err) {
-    if (err) return console.log(err);
-    console.log('writing to ' + fileName);
-  });
-})
 
