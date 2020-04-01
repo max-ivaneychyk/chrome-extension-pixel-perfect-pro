@@ -12,6 +12,7 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
     display: 'inline-block',
     top: alignVertical ? '50vh' : '',
     opacity,
+    lineHeight: 0,
     width: center ? '100vw' : ''
   };
 
