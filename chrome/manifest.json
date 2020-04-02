@@ -1,6 +1,6 @@
 {
   "name": "Pixel Perfect Pro",
-  "description": "",
+  "description": "Helps developers make best pixel perfect site layout",
   "version": "0.76",
   "minimum_chrome_version": "16.0.884",
   "permissions": ["<all_urls>",  "activeTab", "tabs"],
