@@ -3,7 +3,7 @@ import './App.scss';
 import Image from "./components/Image";
 import { HotKeys } from "react-hotkeys";
 import Controls from "./components/Controls";
-import * as Store from './store'
+import * as Database from './store'
 import PreviewList from "./components/PreviewList";
 import StorageService from "./services/StorageService";
 
@@ -23,6 +23,9 @@ const SETTINGS = {
   center: false,
   alignVertical: false
 }
+
+const storage = new StorageService();
+const KEY_LAST_SELECTED = 'last_selected_layer';
 
 class ImageSource {
   constructor(file, name) {
@@ -44,12 +47,12 @@ const useLayerSettings = (name) => {
   const [ data, _update ] = useState(SETTINGS);
 
   useEffect(() => {
-    const settings = new StorageService().get(name, SETTINGS);
+    const settings = storage.get(name, SETTINGS);
     _update(settings);
   }, [ name ])
 
   const update = state => {
-    new StorageService().set(name, state)
+    storage.set(name, state)
     _update(state);
   };
 
@@ -63,7 +66,11 @@ const useLayerSettings = (name) => {
 function App() {
   // Images
   const [ files, updateFiles ] = useState([]);
-  const [ file, updateFile ] = useState(null);
+  const [ file, _updateFile ] = useState(null);
+  const updateFile = state => {
+    _updateFile(state);
+    storage.set(KEY_LAST_SELECTED, state ? state.name : '')
+  };
   // Options
   const [ lock, updateLock ] = useState(false);
   const [ visible, onChangeVisibility ] = useState(true);
@@ -84,7 +91,7 @@ function App() {
       )
     )
 
-    images.forEach(({ file, name }) => Store.set(name, file));
+    images.forEach(({ file, name }) => Database.set(name, file));
 
     updateFiles([
       ...files,
@@ -97,10 +104,16 @@ function App() {
   };
 
   useEffect(() => {
-    Store.getAll().then(files => {
+
+    Database
+    .getAll()
+    .then(files => {
       const images = files.map(([ key, file ]) => new ImageSource(file, key))
+      const prevKeyImg = storage.get(KEY_LAST_SELECTED, '');
+      const [ activeImage = images[0] ] = images.filter(img => img.name === prevKeyImg)
+
       updateFiles(images);
-      updateFile(images[0] || null)
+      updateFile(activeImage || null)
     });
   }, []);
 
@@ -108,8 +121,8 @@ function App() {
   const handleDeleteImage = name => {
     const newFiles = files.filter(({ name: id }) => id !== name);
 
-    Store.remove(name);
-    new StorageService().remove(name)
+    Database.remove(name);
+    storage.remove(name)
     updateFiles(newFiles);
 
     if (file && file.name === name) {
