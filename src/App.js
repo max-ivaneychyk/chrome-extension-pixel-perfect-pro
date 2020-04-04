@@ -163,7 +163,10 @@ function App() {
 
   return (
     <div className="App-Extension">
-      <HotKeys keyMap={ keyMap } handlers={ handlers } allowChanges>
+      <HotKeys
+        keyMap={ keyMap }
+        handlers={ handlers }
+        allowChanges>
 
         {
           !!files.length && <>

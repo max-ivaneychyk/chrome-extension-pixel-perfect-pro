@@ -59,7 +59,6 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
         x: center ? 0 : x,
         y: alignVertical ? 0 : y
       } }
-      scale={ scale }
       axis={ getAxis() }
       onStop={ handleStop }
       disabled={ lock }
