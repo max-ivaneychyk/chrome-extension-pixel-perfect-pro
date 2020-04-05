@@ -1,4 +1,4 @@
-
+hot reload
 validation
 
 Pixel Perfect Pro helps developers and designers 

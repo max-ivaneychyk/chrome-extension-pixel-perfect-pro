@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Draggable from 'react-draggable';
 import { toNumber } from "../../utils";
 
-
-const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChangePosition, lock, file, center }) => {
+const ImageLayer = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChangePosition, lock, file, center }) => {
+  const [ width, updateWidth ] = useState(0);
   const style = {
-    transform: `scale(${ scale }, ${ scale }) translateY(${ alignVertical ? -50 : 0 }%)`,
+    transform: `translateY(${ alignVertical ? -50 : 0 }%)`,
     position: 'relative',
     transformOrigin: alignVertical ? 'center top' : '',
     textAlign: center ? 'center' : "left",
@@ -21,7 +21,29 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
     top: '0',
     pointerEvents: lock ? 'none' : '',
     left: '0',
-  }
+  };
+
+  const imageStyle = {
+    width: `${toNumber(scale * width)}px`,
+    height: 'auto',
+    maxWidth: 'initial',
+    pointerEvents: 'none',
+    filter: `invert(${ inversion }%)`
+  };
+
+  useEffect(() => {
+
+    if (file) {
+      const img = new Image();
+
+      img.onload = () => {
+        updateWidth(img.width);
+      }
+
+      img.src = file.href;
+
+    }
+  }, [ file ]);
 
   const handleStop = (_, { x, y }) => {
     const state = {};
@@ -65,14 +87,18 @@ const Image = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChan
     >
       <div style={ imageWrapStyle }>
         <div style={ style }>
-          { file && <img src={ file.href } alt={ file.name } style={ {
-            pointerEvents: 'none',
-            filter: `invert(${ inversion }%)`
-          } }/> }
+          {
+            file &&
+            <img
+              src={ file.href }
+              alt={ file.name }
+              style={ imageStyle }
+            />
+          }
         </div>
       </div>
     </Draggable>
   )
 }
 
-export default Image
+export default ImageLayer
