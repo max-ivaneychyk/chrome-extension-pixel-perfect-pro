@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoIosCloseCircleOutline, IoIosArrowDropup, IoIosArrowDropdown } from "react-icons/io";
 import './index.scss'
 import { joinClasses } from "../../utils";
 import DropZone from "../DropZone";
 import Icon from "../Icon";
+import useSettings from "../../hooks/useSettings";
+import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
 
 const ScrollArea = ({ children, speed = 0.2 }) => {
   const ref = React.useRef();
@@ -23,7 +25,8 @@ const ScrollArea = ({ children, speed = 0.2 }) => {
 }
 
 const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
-  const [ isVisible, toggle ] = useState(true);
+  const [ { showLayers: isVisible }, { updateByKey } ] = useSettings(APP_KEY, EXTENSION_SETTINGS)
+  const toggle = updateByKey('showLayers')
   const handleToggle = () => toggle(!isVisible);
 
   return (
@@ -68,7 +71,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                     event.stopPropagation();
                     onDelete(name);
                   } }
-                  inactiveColor={'var(--danger-color)'}
+                  inactiveColor={ 'var(--danger-color)' }
                   Component={ IoIosCloseCircleOutline }
                 />
               </div>

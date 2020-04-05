@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import './index.scss'
 import Slider from "../Slider";
 import Input from "../Input";
@@ -9,6 +9,8 @@ import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { MdVerticalAlignCenter } from "react-icons/md";
 import Icon from "../Icon";
 import { joinClasses, toDecimal, toNumber } from "../../utils";
+import useSettings from "../../hooks/useSettings";
+import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
 
 
 const StopWheelScroll = ({ children }) => {
@@ -30,8 +32,9 @@ const StopWheelScroll = ({ children }) => {
 }
 
 const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alignVertical, onChangeOpacity, onAlignVerticalCenter, onChangeInversion, onChangePosition, onAlignCenter, onChangeScale, onLock, onChangeVisibility }) => {
-  const [ controlsPosition, updateControlsPosition ] = useState({ x: 0, y: 0 })
-  const [ showAll, collapse ] = useState(true)
+  const [ { collapseControls: showAll, controlsPosition }, { updateByKey } ] = useSettings(APP_KEY, EXTENSION_SETTINGS)
+  const collapse = updateByKey('collapseControls');
+  const updateControlsPosition = updateByKey('controlsPosition');
 
   const onChange = ({ target: { value, name } }) => {
     onChangePosition({

@@ -6,6 +6,9 @@ import Controls from "./components/Controls";
 import * as Database from './store'
 import PreviewList from "./components/PreviewList";
 import StorageService from "./services/StorageService";
+import { APP_KEY, EXTENSION_SETTINGS } from "./const/app";
+import useSettings from "./hooks/useSettings";
+import { SETTINGS } from "./const/layer";
 
 const keyMap = {
   TO_LEFT: [ "left", 'a' ],
@@ -13,16 +16,6 @@ const keyMap = {
   TO_UP: [ "up", 'w' ],
   TO_DOWN: [ "down", 's' ],
 };
-
-const SETTINGS = {
-  x: 0,
-  y: 0,
-  scale: 1,
-  opacity: 100,
-  inversion: 0,
-  center: false,
-  alignVertical: false
-}
 
 const storage = new StorageService();
 const KEY_LAST_SELECTED = 'last_selected_layer';
@@ -43,39 +36,22 @@ class ImageSource {
   }
 }
 
-const useLayerSettings = (name) => {
-  const [ data, _update ] = useState(SETTINGS);
-
-  useEffect(() => {
-    const settings = storage.get(name, SETTINGS);
-    _update(settings);
-  }, [ name ])
-
-  const update = state => {
-    storage.set(name, state)
-    _update(state);
-  };
-
-  const updateByKey = key => (val) => update({ ...data, [key]: val });
-  const merge = newState => update({ ...data, ...newState });
-
-  return [ data, { updateByKey, merge } ];
-
-};
-
 function App() {
   // Images
   const [ files, updateFiles ] = useState([]);
   const [ file, _updateFile ] = useState(null);
+  // Options
+  const [ settings, updateSettings ] = useSettings(file ? file.name : '', SETTINGS);
+  const [ { visible, lock }, updateAppSettings ] = useSettings(APP_KEY, EXTENSION_SETTINGS);
+  const { x, y, opacity, scale, center, inversion, alignVertical } = settings;
+
   const updateFile = state => {
     _updateFile(state);
     storage.set(KEY_LAST_SELECTED, state ? state.name : '')
   };
-  // Options
-  const [ lock, updateLock ] = useState(false);
-  const [ visible, onChangeVisibility ] = useState(true);
-  const [ settings, updateSettings ] = useLayerSettings(file ? file.name : '');
-  const { x, y, opacity, scale, center, inversion, alignVertical } = settings;
+
+  const updateLock = updateAppSettings.updateByKey('lock');
+  const onChangeVisibility = updateAppSettings.updateByKey('visible');
 
   const { updateByKey, merge } = updateSettings;
   const updateScale = updateByKey('scale');
