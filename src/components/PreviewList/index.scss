@@ -20,14 +20,20 @@
 
   }
 
-  .ToggleBtn {
+  button.ToggleBtn {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -4px;
+    right: 4px;
     transform: translateY(-100%);
     border-color: transparent;
     background: white;
-    border-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
+    &:focus,
+    &:hover {
+      background: white;
+    }
   }
 
   .PreviewList {
@@ -41,6 +47,7 @@
     transform: translateY(0);
     transition: transform .2s ease;
     @include useCard();
+    border-radius: 0;
 
     &.hidden-list {
       transform: translateY(100%);
