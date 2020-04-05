@@ -12,3 +12,5 @@ export const toNumber = (val) => {
 export const toDecimal = (val) => {
   return parseFloat(val || 0)
 }
+
+export const noop = () => null

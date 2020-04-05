@@ -1,4 +1,3 @@
-hot reload
 
 Pixel Perfect Pro helps developers and designers 
 to make best sites and more high quality products.

@@ -8,9 +8,16 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { MdVerticalAlignCenter } from "react-icons/md";
 import Icon from "../Icon";
-import { joinClasses, toDecimal, toNumber } from "../../utils";
+import { joinClasses, noop, toDecimal, toNumber } from "../../utils";
 import useSettings from "../../hooks/useSettings";
 import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
+
+const useResize = callback => {
+  useEffect(() => {
+    window.addEventListener('resize', callback)
+    return () => window.removeEventListener('resize', callback)
+  }, [ callback ])
+};
 
 
 const StopWheelScroll = ({ children }) => {
@@ -35,6 +42,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
   const [ { collapseControls: showAll, controlsPosition }, { updateByKey } ] = useSettings(APP_KEY, EXTENSION_SETTINGS)
   const collapse = updateByKey('collapseControls');
   const updateControlsPosition = updateByKey('controlsPosition');
+  const ref = useRef();
 
   const onChange = ({ target: { value, name } }) => {
     onChangePosition({
@@ -72,6 +80,31 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
     collapse(!showAll)
   }
 
+  const handleResize = useCallback(() => {
+    if (!ref.current) {
+      return noop
+    }
+
+    const { x } = ref.current.getBoundingClientRect()
+
+    if (x >= 0) {
+      return noop;
+    }
+
+    updateControlsPosition({
+      ...controlsPosition,
+      x: - (Math.abs(controlsPosition.x) + x)
+    })
+  }, [ updateControlsPosition, controlsPosition ]);
+
+  useEffect(() => {
+    handleResize()
+  }, [ handleResize ]);
+
+  useResize(handleResize);
+
+
+
   return (
     <Draggable
       position={ controlsPosition }
@@ -79,7 +112,9 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
       handle=".handleDraggable"
       bounds={ 'body' }
     >
-      <div className={ joinClasses('Controls', showAll && 'full') }>
+      <div
+        ref={ ref }
+        className={ joinClasses('Controls', showAll && 'full') }>
 
         <div className={ 'head' }>
           <Icon className={ 'handleDraggable' }
