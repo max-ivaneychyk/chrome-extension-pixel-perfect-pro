@@ -1,7 +1,6 @@
 const installedTabs = {};
 
 const injectJS = (tab) => {
-  console.log('inject');
 
   chrome.tabs.insertCSS({
     file: 'all.css'
@@ -40,7 +39,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, _, tab){
     return;
   }
 
-  console.log('reset', tabId, tab);
   installedTabs[tabId] = null;
 });
 
@@ -58,7 +56,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     return;
   }
 
-  console.log('toggle');
+
   installedTabs[tab.id].visible = !installedTabs[tab.id].visible;
 
   chrome.tabs.executeScript({
