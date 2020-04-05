@@ -36,7 +36,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
         size={ 26 }
         onClick={ handleToggle }
         className={ 'ToggleBtn' }
-        title={ 'Show screens' }
+        title={ 'Show/Hide all layers' }
         Component={ isVisible ? IoIosArrowDropdown : IoIosArrowDropup }
         active
       />

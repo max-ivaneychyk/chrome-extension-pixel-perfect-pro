@@ -119,6 +119,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
         <div className={ 'head' }>
           <Icon className={ 'handleDraggable' }
                 Component={ IoIosMenu }
+                title={'Change position'}
                 size={ 22 }
           />
 
@@ -126,17 +127,20 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
             Component={ visible ? FaRegEye : FaEyeSlash }
             onClick={ handleChangeVisible }
             active={ visible }
+            title={'Show/Hide layer'}
             size={ 20 }
           />
 
           <Icon
             Component={ lock ? FaLock : FaUnlock }
             active={ lock }
+            title={'Lock/Unlock layer'}
             onClick={ handleLock }
           />
 
           <Icon
             Component={ !showAll ? IoIosArrowDown : IoIosArrowUp }
+            title={'Toggle controls view'}
             onClick={ handleCollapse }
             active={ false }
             size={ 22 }
@@ -150,7 +154,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
             <Icon
               Component={ MdVerticalAlignCenter }
               size={ 22 }
-              title={ 'Align center' }
+              title={ 'Align center by X' }
               onClick={ handleAlignCenter }
               active={ center }
               style={ { transform: 'rotate(90deg)' } }
@@ -163,7 +167,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
             <Icon
               Component={ MdVerticalAlignCenter }
               size={ 22 }
-              title={ 'Align vertical center' }
+              title={ 'Align center by Y' }
               onClick={ handleAlignVertical }
               active={ alignVertical }
             />
