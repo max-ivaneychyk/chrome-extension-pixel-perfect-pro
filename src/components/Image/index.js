@@ -21,6 +21,7 @@ const ImageLayer = ({ x, y, scale, visible, inversion, alignVertical, opacity, o
     top: '0',
     pointerEvents: lock ? 'none' : '',
     left: '0',
+    cursor: 'move',
   };
 
   const imageStyle = {

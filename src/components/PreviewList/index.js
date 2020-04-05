@@ -42,6 +42,13 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
         onDrop={ onDrop }
       />
 
+      {
+        !images.length &&
+        <p className={ 'EmptyListPlaceholder' }>
+          No uploaded images
+        </p>
+      }
+
       <ScrollArea>
         {
           images.map(({ href, name }, index) => (

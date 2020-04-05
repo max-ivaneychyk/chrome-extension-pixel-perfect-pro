@@ -1,8 +1,25 @@
 @import "../../share";
 
-@import "../../share";
+@keyframes opacityAnim {
+  0% {
+   opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 @include useScope() {
+  .EmptyListPlaceholder {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 20px;
+    font-weight: 500;
+    animation: opacityAnim 3s;
+
+  }
+
   .ToggleBtn {
     position: absolute;
     top: 0;
