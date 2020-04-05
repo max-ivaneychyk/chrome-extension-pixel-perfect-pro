@@ -21,6 +21,7 @@
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
 
   * {
     margin: 0;
@@ -38,6 +39,7 @@
 
   img {
     max-height: 100%;
+    background-color: var(--grey-color);
   }
 
   button {

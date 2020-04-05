@@ -60,13 +60,14 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
   console.log('toggle');
   installedTabs[tab.id].visible = !installedTabs[tab.id].visible;
+
   chrome.tabs.executeScript({
     code: `
     ;(function() {
       const frame = document.querySelector('#react-app-ext');
     
       if (frame) {
-        frame.style.display =  frame.style.display ? '' : 'none'
+        frame.style.display =  ${!!installedTabs[tab.id].visible} ? '' : 'none'
       }
     })();
   `
