@@ -5,10 +5,10 @@ import { HotKeys } from "react-hotkeys";
 import Controls from "./components/Controls";
 import * as Database from './store'
 import PreviewList from "./components/PreviewList";
-import StorageService from "./services/StorageService";
 import { APP_KEY, EXTENSION_SETTINGS } from "./const/app";
 import useSettings from "./hooks/useSettings";
 import { SETTINGS } from "./const/layer";
+import { SERVICES, useService } from "./hooks/useService";
 
 const keyMap = {
   TO_LEFT: [ "left", 'a' ],
@@ -17,7 +17,6 @@ const keyMap = {
   TO_DOWN: [ "down", 's' ],
 };
 
-const storage = new StorageService();
 const KEY_LAST_SELECTED = 'last_selected_layer';
 
 class ImageSource {
@@ -37,6 +36,7 @@ class ImageSource {
 }
 
 function App() {
+  const storage = useService(SERVICES.STORAGE_SERVICE);
   // Images
   const [ files, updateFiles ] = useState([]);
   const [ file, _updateFile ] = useState(null);
@@ -89,9 +89,9 @@ function App() {
       const [ activeImage = images[0] ] = images.filter(img => img.name === prevKeyImg)
 
       updateFiles(images);
-      updateFile(activeImage || null)
+      _updateFile(activeImage || null)
     });
-  }, []);
+  }, [ storage ]);
 
 
   const handleDeleteImage = name => {
@@ -177,7 +177,7 @@ function App() {
               onChangePosition={ onChangePosition }
               onChangeScale={ updateScale }
               onChangeVisibility={ onChangeVisibility }
-              onAlignVerticalCenter={updateByKey('alignVertical')}
+              onAlignVerticalCenter={ updateByKey('alignVertical') }
             />
           </>
         }

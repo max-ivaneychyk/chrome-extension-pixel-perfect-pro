@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import StorageService from "../services/StorageService";
-
-const storage = new StorageService();
+import { SERVICES, useService } from "./useService";
 
 const useSettings = (name, initialValues) => {
+  const storage = useService(SERVICES.STORAGE_SERVICE)
   const [ data, _update ] = useState(initialValues);
 
   useEffect(() => {
     const settings = storage.get(name, initialValues);
+
     _update(settings);
-  }, [ name , initialValues ])
+
+    return storage.onChange(name, _update)
+  }, [ name , initialValues, storage ])
 
   const update = state => {
     storage.set(name, state)
