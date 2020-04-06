@@ -43,6 +43,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
   const collapse = updateByKey('collapseControls');
   const updateControlsPosition = updateByKey('controlsPosition');
   const ref = useRef();
+  const { x: controlsX, y: controlsY } = controlsPosition;
 
   const onChange = ({ target: { value, name } }) => {
     onChangePosition({
@@ -82,6 +83,10 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
 
   const handleResize = useCallback(() => {
     let newPosition = {};
+    const controlsPosition = {
+      x: controlsX,
+      y: controlsY
+    }
 
     if (!ref.current) {
       return noop
@@ -91,11 +96,11 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
     const y = document.body.offsetHeight - bottom;
 
     if (x < 0) {
-      newPosition.x = - (Math.abs(controlsPosition.x) + x);
+      newPosition.x = -(Math.abs(controlsPosition.x) + x);
     }
 
     if (y < 0) {
-      newPosition.y = - (Math.abs(controlsPosition.y) + y);
+      newPosition.y = Math.max(controlsPosition.y + y, 0);
     }
 
     if (objectEmpty(newPosition)) {
@@ -106,15 +111,13 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
       ...controlsPosition,
       ...newPosition
     });
-  }, [ updateControlsPosition, controlsPosition ]);
+  }, [ updateControlsPosition, controlsY, controlsX ]);
 
   useEffect(() => {
     handleResize()
   }, [ handleResize ]);
 
   useResize(handleResize);
-
-
 
   return (
     <Draggable
@@ -130,7 +133,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
         <div className={ 'head' }>
           <Icon className={ 'handleDraggable' }
                 Component={ IoIosMenu }
-                title={'Change position'}
+                title={ 'Change position' }
                 size={ 22 }
           />
 
@@ -138,20 +141,20 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
             Component={ visible ? FaRegEye : FaEyeSlash }
             onClick={ handleChangeVisible }
             active={ visible }
-            title={'Show/Hide layer'}
+            title={ 'Show/Hide layer' }
             size={ 20 }
           />
 
           <Icon
             Component={ lock ? FaLock : FaUnlock }
             active={ lock }
-            title={'Lock/Unlock layer'}
+            title={ 'Lock/Unlock layer' }
             onClick={ handleLock }
           />
 
           <Icon
             Component={ !showAll ? IoIosArrowDown : IoIosArrowUp }
-            title={'Toggle controls view'}
+            title={ 'Toggle controls view' }
             onClick={ handleCollapse }
             active={ false }
             size={ 22 }

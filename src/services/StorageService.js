@@ -65,18 +65,18 @@ class StorageService {
     return `${key}${this._version}`;
   }
 
-  _objectToString(obj) {
+  toJSON(obj) {
     return JSON.stringify(obj || "");
   }
 
-  _parseString(str) {
+  parse(str) {
     return JSON.parse(str);
   }
 
   get(key, _default) {
     try {
       const strData = this.getStorage(key).getItem(this._decorateKey(key));
-      const data = this._parseString(strData);
+      const data = this.parse(strData);
       return arguments.length === 1 ? data : data || _default;
     } catch (e) {
       console.warn(e);
@@ -86,7 +86,7 @@ class StorageService {
 
   set(key, value) {
     this.observable.set(key, value);
-    this.getStorage(key).setItem(this._decorateKey(key), this._objectToString(value));
+    this.getStorage(key).setItem(this._decorateKey(key), this.toJSON(value));
   }
 
   merge(key, value) {
@@ -94,7 +94,7 @@ class StorageService {
     const oldValue = this.get(key);
     const newValue = Object.assign(oldValue, value);
 
-    this.getStorage(key).setItem(keyName, this._objectToString(newValue));
+    this.getStorage(key).setItem(keyName, this.toJSON(newValue));
   }
 
   remove(key) {
