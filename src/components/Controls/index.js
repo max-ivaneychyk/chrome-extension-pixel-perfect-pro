@@ -8,7 +8,7 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { MdVerticalAlignCenter } from "react-icons/md";
 import Icon from "../Icon";
-import { joinClasses, noop, toDecimal, toNumber } from "../../utils";
+import { joinClasses, noop, objectEmpty, toDecimal, toNumber } from "../../utils";
 import useSettings from "../../hooks/useSettings";
 import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
 
@@ -81,20 +81,31 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
   }
 
   const handleResize = useCallback(() => {
+    let newPosition = {};
+
     if (!ref.current) {
       return noop
     }
 
-    const { x } = ref.current.getBoundingClientRect()
+    const { x, bottom } = ref.current.getBoundingClientRect();
+    const y = document.body.offsetHeight - bottom;
 
-    if (x >= 0) {
+    if (x < 0) {
+      newPosition.x = - (Math.abs(controlsPosition.x) + x);
+    }
+
+    if (y < 0) {
+      newPosition.y = - (Math.abs(controlsPosition.y) + y);
+    }
+
+    if (objectEmpty(newPosition)) {
       return noop;
     }
 
     updateControlsPosition({
       ...controlsPosition,
-      x: - (Math.abs(controlsPosition.x) + x)
-    })
+      ...newPosition
+    });
   }, [ updateControlsPosition, controlsPosition ]);
 
   useEffect(() => {

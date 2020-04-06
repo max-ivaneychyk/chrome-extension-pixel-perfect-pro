@@ -13,4 +13,6 @@ export const toDecimal = (val) => {
   return parseFloat(val || 0)
 }
 
-export const noop = () => null
+export const noop = () => null;
+
+export const objectEmpty = obj => !Object.keys(obj).length;
