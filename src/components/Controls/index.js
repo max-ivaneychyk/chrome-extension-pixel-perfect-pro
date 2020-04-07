@@ -8,8 +8,8 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosMenu } from "react-icons/io";
 import { FaLock, FaUnlock, FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { MdVerticalAlignCenter } from "react-icons/md";
 import Icon from "../Icon";
-import { joinClasses, noop, objectEmpty, toDecimal, toNumber } from "../../utils";
-import useSettings from "../../hooks/useSettings";
+import { joinClasses, toDecimal, toNumber } from "../../utils";
+import { useStorageValue } from "../../hooks/useSettings";
 import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
 
 const useResize = callback => {
@@ -39,11 +39,11 @@ const StopWheelScroll = ({ children }) => {
 }
 
 const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alignVertical, onChangeOpacity, onAlignVerticalCenter, onChangeInversion, onChangePosition, onAlignCenter, onChangeScale, onLock, onChangeVisibility }) => {
-  const [ { collapseControls: showAll, controlsPosition }, { updateByKey } ] = useSettings(APP_KEY, EXTENSION_SETTINGS)
-  const collapse = updateByKey('collapseControls');
-  const updateControlsPosition = updateByKey('controlsPosition');
   const ref = useRef();
-  const { x: controlsX, y: controlsY } = controlsPosition;
+
+  const [ controlsX, updateX ] = useStorageValue(APP_KEY, 'controls.x', EXTENSION_SETTINGS.controls.x);
+  const [ controlsY, updateY ] = useStorageValue(APP_KEY, 'controls.y', EXTENSION_SETTINGS.controls.y);
+  const [ showAll, collapse ] = useStorageValue(APP_KEY, 'controls.collapse', EXTENSION_SETTINGS.controls.collapse);
 
   const onChange = ({ target: { value, name } }) => {
     onChangePosition({
@@ -70,7 +70,8 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
   }
 
   const handleDragStop = (_, { x, y }) => {
-    updateControlsPosition({ x: toNumber(x), y: toNumber(y) })
+    updateX(toNumber(x))
+    updateY(toNumber(y))
   }
 
   const handleChangeVisible = () => {
@@ -82,36 +83,22 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
   }
 
   const handleResize = useCallback(() => {
-    let newPosition = {};
-    const controlsPosition = {
-      x: controlsX,
-      y: controlsY
-    }
-
     if (!ref.current) {
-      return noop
+      return
     }
 
     const { x, bottom } = ref.current.getBoundingClientRect();
     const y = document.body.offsetHeight - bottom;
 
     if (x < 0) {
-      newPosition.x = -(Math.abs(controlsPosition.x) + x);
+      updateX(-(Math.abs(controlsX) + x));
+
     }
 
     if (y < 0) {
-      newPosition.y = Math.max(controlsPosition.y + y, 0);
+      updateY(Math.max(controlsY + y, 0));
     }
-
-    if (objectEmpty(newPosition)) {
-      return noop;
-    }
-
-    updateControlsPosition({
-      ...controlsPosition,
-      ...newPosition
-    });
-  }, [ updateControlsPosition, controlsY, controlsX ]);
+  }, [ updateY, updateX, controlsY, controlsX ]);
 
   useEffect(() => {
     handleResize()
@@ -121,14 +108,14 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
 
   return (
     <Draggable
-      position={ controlsPosition }
+      position={ {x: controlsX, y: controlsY} }
       onStop={ handleDragStop }
       handle=".handleDraggable"
       bounds={ 'body' }
     >
       <div
         ref={ ref }
-        className={ joinClasses('Controls', showAll && 'full') }>
+        className={ joinClasses('Controls', !showAll && 'full') }>
 
         <div className={ 'head' }>
           <Icon className={ 'handleDraggable' }

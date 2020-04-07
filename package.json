@@ -7,6 +7,8 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "idb-kv-store": "^4.4.0",
+    "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
     "node-html-parser": "^1.2.13",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",

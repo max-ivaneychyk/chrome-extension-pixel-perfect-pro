@@ -6,7 +6,7 @@ import Controls from "./components/Controls";
 import * as Database from './store'
 import PreviewList from "./components/PreviewList";
 import { APP_KEY, EXTENSION_SETTINGS } from "./const/app";
-import useSettings from "./hooks/useSettings";
+import useSettings, { useStorageValue } from "./hooks/useSettings";
 import { SETTINGS } from "./const/layer";
 import { SERVICES, useService } from "./hooks/useService";
 
@@ -40,18 +40,17 @@ function App() {
   // Images
   const [ files, updateFiles ] = useState([]);
   const [ file, _updateFile ] = useState(null);
-  // Options
+  // Options Layers
   const [ settings, updateSettings ] = useSettings(file ? file.name : '', SETTINGS);
-  const [ { visible, lock }, updateAppSettings ] = useSettings(APP_KEY, EXTENSION_SETTINGS);
   const { x, y, opacity, scale, center, inversion, alignVertical } = settings;
+  // Options Controls
+  const [ visible, onChangeVisibility ] = useStorageValue(APP_KEY, 'visible', EXTENSION_SETTINGS.visible);
+  const [ lock, updateLock ] = useStorageValue(APP_KEY, 'lock', EXTENSION_SETTINGS.lock);
 
   const updateFile = state => {
     _updateFile(state);
     storage.set(KEY_LAST_SELECTED, state ? state.name : '')
   };
-
-  const updateLock = updateAppSettings.updateByKey('lock');
-  const onChangeVisibility = updateAppSettings.updateByKey('visible');
 
   const { updateByKey, merge } = updateSettings;
   const updateScale = updateByKey('scale');

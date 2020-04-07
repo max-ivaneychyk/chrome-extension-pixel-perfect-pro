@@ -4,7 +4,7 @@ import './index.scss'
 import { joinClasses } from "../../utils";
 import DropZone from "../DropZone";
 import Icon from "../Icon";
-import useSettings from "../../hooks/useSettings";
+import { useStorageValue } from "../../hooks/useSettings";
 import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
 
 const ScrollArea = ({ children, speed = 0.2 }) => {
@@ -25,8 +25,7 @@ const ScrollArea = ({ children, speed = 0.2 }) => {
 }
 
 const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
-  const [ { showLayers: isVisible }, { updateByKey } ] = useSettings(APP_KEY, EXTENSION_SETTINGS)
-  const toggle = updateByKey('showLayers')
+  const [ isVisible, toggle ] = useStorageValue(APP_KEY, 'showLayers', EXTENSION_SETTINGS.showLayers);
   const handleToggle = () => toggle(!isVisible);
 
   return (

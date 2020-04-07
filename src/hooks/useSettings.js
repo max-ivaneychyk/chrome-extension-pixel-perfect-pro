@@ -1,35 +1,43 @@
 import { useCallback, useEffect, useState } from "react";
 import { SERVICES, useService } from "./useService";
 
-const useSettings = (name, initialValues) => {
+export const useStorageValue = (storageKey, key, initialValue) => {
   const storage = useService(SERVICES.STORAGE_SERVICE);
-  const toJSON = useCallback(obj => storage.toJSON(obj), [ storage ]);
-  const parse = useCallback(json => storage.parse(json), [ storage ]);
-  const [ json, update ] = useState(toJSON(initialValues));
+  const [ value, updateStore ] = useState( storage.getByKey(storageKey, key, initialValue) );
+
+  const update = useCallback(newValue => {
+    storage.setByKey(storageKey, key, newValue);
+  }, [ storage, storageKey, key ]);
 
   useEffect(() => {
-    const settings = storage.get(name, initialValues);
+    return storage.onChangeByKey(storageKey, key, updateStore);
+  }, [ storage, storageKey, key ])
 
-    update(toJSON(settings));
+  return [ value, update ];
+}
 
-    return storage.onChange(name, data => update(toJSON(data)))
-  }, [ name, initialValues, storage, toJSON ])
+const useSettings = (name, initialValues) => {
+  const storage = useService(SERVICES.STORAGE_SERVICE);
+  const [ data, update ] = useState(storage.get(name, initialValues));
+
+  useEffect(() => {
+    return storage.onChange(name, update)
+  }, [ name, storage ])
 
   const updateState = useCallback(state => {
     storage.set(name, state)
-    update(toJSON(state));
-  }, [ storage, toJSON, name ]);
+  }, [ storage, name ]);
 
   const merge = useCallback(newState =>
-      updateState({ ...parse(json), ...newState }),
-    [ parse, json, updateState ]
+      updateState({ ...data, ...newState }),
+    [ data, updateState ]
   );
 
   const updateByKey = useCallback(key =>
       val => merge({ [key]: val }),
     [ merge ]);
 
-  return [ parse(json), { updateByKey, merge, parseJSON: parse, toJSON } ];
+  return [ data, { updateByKey, merge } ];
 };
 
 export default useSettings

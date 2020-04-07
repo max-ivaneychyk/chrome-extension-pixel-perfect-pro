@@ -1,3 +1,6 @@
+import get from 'lodash.get'
+import set from 'lodash.set'
+
 const STORAGE_SPLITTER = "::";
 const DEFAULT_STORAGE = localStorage;
 const STORAGE = {
@@ -6,8 +9,8 @@ const STORAGE = {
 };
 
 const storageMap = {
-  [ STORAGE.LOCAL ]: localStorage,
-  [ STORAGE.SESSION ]: sessionStorage
+  [STORAGE.LOCAL]: localStorage,
+  [STORAGE.SESSION]: sessionStorage
 };
 
 const storageList = Object.values(storageMap);
@@ -21,8 +24,8 @@ class Observable {
       set: (obj, prop, value) => {
         const handlers = this.handlers;
 
-        if (handlers[ prop ]) {
-          handlers[ prop ].forEach(handler => handler(value));
+        if (handlers[prop]) {
+          handlers[prop].forEach(handler => handler(value));
         }
 
         return true;
@@ -31,21 +34,21 @@ class Observable {
   }
 
   set(key, val) {
-    this.outputs[ key ] = val;
+    this.outputs[key] = val;
   }
 
   subscribe = (key, func) => {
-    if (!this.handlers[ key ]) {
-      this.handlers[ key ] = [];
+    if (!this.handlers[key]) {
+      this.handlers[key] = [];
     }
 
-    this.handlers[ key ].push(func);
+    this.handlers[key].push(func);
 
     return () => this.unsubscribe(key, func);
   };
 
   unsubscribe = (key, func) => {
-    this.handlers[ key ] = this.handlers[ key ].filter(handler => handler !== func);
+    this.handlers[key] = this.handlers[key].filter(handler => handler !== func);
   };
 }
 
@@ -58,11 +61,11 @@ class StorageService {
 
   getStorage(key) {
     const [ keyStorage ] = key.split(STORAGE_SPLITTER);
-    return storageMap[ keyStorage ] || DEFAULT_STORAGE;
+    return storageMap[keyStorage] || DEFAULT_STORAGE;
   }
 
   _decorateKey(key) {
-    return `${key}${this._version}`;
+    return `${ key }${ this._version }`;
   }
 
   toJSON(obj) {
@@ -84,17 +87,29 @@ class StorageService {
     }
   }
 
+  getByKey(storageKey, key, _default) {
+    const data = this.get(storageKey);
+    return get(data, key, _default);
+  }
+
+  setByKey(storageKey, key, value) {
+    let data = this.get(storageKey, {});
+
+    set(data, key, value);
+
+    this.set(storageKey, data);
+  }
+
   set(key, value) {
     this.observable.set(key, value);
     this.getStorage(key).setItem(this._decorateKey(key), this.toJSON(value));
   }
 
   merge(key, value) {
-    const keyName = this._decorateKey(key);
     const oldValue = this.get(key);
     const newValue = Object.assign(oldValue, value);
 
-    this.getStorage(key).setItem(keyName, this.toJSON(newValue));
+    this.set(key, newValue);
   }
 
   remove(key) {
@@ -112,7 +127,7 @@ class StorageService {
   }
 
   clearSession() {
-    this.clearStorage(storageMap[ STORAGE.SESSION ]);
+    this.clearStorage(storageMap[STORAGE.SESSION]);
   }
 
   clearByScope(scope) {
@@ -131,6 +146,23 @@ class StorageService {
 
   onChange(key, func) {
     return this.observable.subscribe(key, func);
+  }
+
+  onChangeByKey(storeKey, key, func) {
+    let oldValue = this.getByKey(storeKey, key);
+
+    const handler = value => {
+      const newValue = get(value, key);
+
+      if (oldValue === newValue) {
+        return;
+      }
+
+      oldValue = newValue;
+      func(newValue);
+    };
+
+    return this.observable.subscribe(storeKey, handler);
   }
 }
 
