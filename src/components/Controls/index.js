@@ -140,7 +140,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
           />
 
           <Icon
-            Component={ !showAll ? IoIosArrowDown : IoIosArrowUp }
+            Component={ showAll ? IoIosArrowDown : IoIosArrowUp }
             title={ 'Toggle controls view' }
             onClick={ handleCollapse }
             active={ false }
