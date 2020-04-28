@@ -21,8 +21,9 @@ const useSettings = (name, initialValues) => {
   const [ data, update ] = useState(storage.get(name, initialValues));
 
   useEffect(() => {
+    update(storage.get(name, initialValues))
     return storage.onChange(name, update)
-  }, [ name, storage ])
+  }, [ name, storage, initialValues ])
 
   const updateState = useCallback(state => {
     storage.set(name, state)
