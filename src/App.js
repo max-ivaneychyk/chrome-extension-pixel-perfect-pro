@@ -132,9 +132,7 @@ function App() {
     TO_DOWN: handleMoveDown
   };
 
-  const onChangePosition = ({ x, y }) => {
-    merge({ x, y })
-  }
+  const onChangePosition = merge;
 
   return (
     <div className="App-Extension">

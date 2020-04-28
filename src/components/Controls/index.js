@@ -108,7 +108,7 @@ const Controls = ({ x, y, scale, opacity, inversion, visible, lock, center, alig
 
   return (
     <Draggable
-      position={ {x: controlsX, y: controlsY} }
+      position={ { x: controlsX, y: controlsY } }
       onStop={ handleDragStop }
       handle=".handleDraggable"
       bounds={ 'body' }

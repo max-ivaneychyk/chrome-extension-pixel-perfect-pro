@@ -76,12 +76,28 @@ const ImageLayer = ({ x, y, scale, visible, inversion, alignVertical, opacity, o
     return 'both'
   };
 
+  const getCursor = () => {
+    if (center && alignVertical) {
+      return 'auto'
+    } else if (alignVertical) {
+      return 'e-resize'
+    } else if (center) {
+      return 'n-resize'
+    }
+
+    return 'move'
+  };
+
+  style.cursor = getCursor();
+
+  const position = {
+    x: center ? 0 : x,
+    y: alignVertical ? 0 : y
+  };
+
   return (
     <Draggable
-      position={ {
-        x: center ? 0 : x,
-        y: alignVertical ? 0 : y
-      } }
+      position={ position }
       axis={ getAxis() }
       onStop={ handleStop }
       disabled={ lock }
