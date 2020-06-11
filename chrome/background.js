@@ -13,8 +13,6 @@ const set = (tabId, data) => {
 };
 
 class AppExtension {
-	static APP_CONTAINER_ID = '#react-app-ext';
-
 	static toggle(tabId) {
 		chrome.tabs.executeScript(tabId, {
 			code: `
@@ -50,6 +48,7 @@ class AppExtension {
 	}
 }
 
+AppExtension.APP_CONTAINER_ID = '#react-app-ext';
 
 const injectJS = (tab) => {
 
