@@ -1,9 +1,5 @@
+
 const state = {};
-const initialTabState = {
-	toggle: false,
-	status: 'off',
-	injected: false
-};
 
 const set = (tabId, data) => {
 	state[tabId] = {
@@ -11,6 +7,34 @@ const set = (tabId, data) => {
 		...data
 	}
 };
+
+const tryShowExtension = async (tab) => {
+	const injected = await AppExtension.isInjected(tab.id);
+
+	if (injected) {
+		AppExtension.toggle(tab.id)
+	} else {
+		AppExtension.injectJS(tab)
+	}
+};
+
+async function onUpdateTab(tabId, changeInfo, tab) {
+	// If updated tab matches this one
+	if (changeInfo.status === "complete" &&
+		state[tabId] &&
+		state[tabId].status === 'on'
+	) {
+		await tryShowExtension(tab);
+	}
+}
+
+async function onClick (tab) {
+	const isOn = state[tab.id] && state[tab.id].status === 'on';
+
+	set(tab.id, {status: isOn ? 'off' : 'on'});
+
+	await tryShowExtension(tab)
+}
 
 class AppExtension {
 	static toggle(tabId) {
@@ -46,17 +70,24 @@ class AppExtension {
 			});
 		});
 	}
-}
 
-AppExtension.APP_CONTAINER_ID = '#react-app-ext';
+	static run () {
+		if (!AppExtension.APP_CONTAINER_ID) {
+			throw new Error('Not implemented params <APP_CONTAINER_ID>')
+		}
 
-const injectJS = (tab) => {
-
-	if (state[tab.id] && state[tab.id].injected) {
-		return
+		chrome.browserAction.onClicked.addListener(onClick);
+		chrome.tabs.onUpdated.addListener(onUpdateTab);
 	}
 
+	static injectJS () {
+		throw new Error('Not implemented !')
+	}
+}
 
+
+// My code
+AppExtension.injectJS = (tab) => {
 	chrome.tabs.insertCSS(tab.id, {
 		file: 'all.css'
 	});
@@ -76,55 +107,8 @@ const injectJS = (tab) => {
 	chrome.tabs.executeScript(tab.id, {
 		file: 'main.js'
 	});
-
-	set(
-		tab.id, {injected: true}
-	)
 };
 
-
-function set_status(tab) {
-	let {toggle, ...props} = state[tab.id] || initialTabState;
-	toggle = !toggle;
-
-	state[tab.id] = {
-		...props,
-		toggle,
-		status: toggle ? 'on' : 'off'
-	}
-}
-
-function toggle_extension(tab) {
-	injectJS(tab);
-	// Show / hide
-	AppExtension.toggle(tab.id);
-}
-
-async function my_listener(tabId, changeInfo, tab) {
-	// Check is injected scripts
-	if (changeInfo.status === "complete" &&
-		state[tabId]
-	) {
-		const injected = await AppExtension.isInjected(tabId);
-		set(
-			tabId, {injected}
-		);
-	}
-
-	// If updated tab matches this one
-	if (changeInfo.status === "complete" &&
-		state[tabId] &&
-		state[tabId].status === 'on'
-	) {
-		toggle_extension(tab);
-	}
-}
-
-chrome.browserAction.onClicked.addListener(function (tab) {
-
-	set_status(tab);
-	toggle_extension(tab);
-});
-
-chrome.tabs.onUpdated.addListener(my_listener);
+AppExtension.APP_CONTAINER_ID = '#react-app-ext';
+AppExtension.run();
 
