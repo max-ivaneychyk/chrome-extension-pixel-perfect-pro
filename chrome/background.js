@@ -90,6 +90,8 @@ class AppExtension {
 			throw new Error('Not implemented params <APP_CONTAINER_ID>')
 		}
 
+		// async actions
+		// todo - fast click and hide while page loading
 		browser.tabs.onUpdated.addListener(onUpdateTab);
 		browser.browserAction.onClicked.addListener(onClick);
 	}
@@ -101,6 +103,7 @@ class AppExtension {
 
 
 // My code
+AppExtension.APP_CONTAINER_ID = '#react-app-ext';
 AppExtension.injectJS = (tab) => {
 	browser.tabs.insertCSS(tab.id, {
 		file: 'all.css'
@@ -119,6 +122,5 @@ AppExtension.injectJS = (tab) => {
 	});
 };
 
-AppExtension.APP_CONTAINER_ID = '#react-app-ext';
 AppExtension.run();
 
