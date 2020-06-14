@@ -1,5 +1,6 @@
 
 const state = {};
+const browser = window.chrome;
 
 const set = (tabId, data) => {
 	state[tabId] = {
@@ -14,6 +15,7 @@ const tryShowExtension = async (tab) => {
 	if (injected) {
 		AppExtension.toggle(tab.id)
 	} else {
+		AppExtension.injectAppContainer(tab.id);
 		AppExtension.injectJS(tab)
 	}
 };
@@ -38,7 +40,7 @@ async function onClick (tab) {
 
 class AppExtension {
 	static toggle(tabId) {
-		chrome.tabs.executeScript(tabId, {
+		browser.tabs.executeScript(tabId, {
 			code: `
     ;(function() {
       const frame = document.querySelector("${AppExtension.APP_CONTAINER_ID}");
@@ -50,11 +52,23 @@ class AppExtension {
 		});
 	}
 
+	static injectAppContainer (tabId) {
+		browser.tabs.executeScript(tabId, {
+			code: `
+    ;(function() {
+      const frame = document.createElement('div');
+			frame.id = "${AppExtension.APP_CONTAINER_ID.slice(1)}";
+			document.body.appendChild(frame);
+    })();`
+		});
+	}
+
 	static async isInjected(tabId) {
 		return new Promise((resolve) => {
-			chrome.tabs.executeScript(tabId, {
+
+			browser.tabs.executeScript(tabId, {
 				code: `
-      (function() {
+      ;(function() {
         if( document.querySelector("${AppExtension.APP_CONTAINER_ID}") )  {
           return true
         }
@@ -76,8 +90,8 @@ class AppExtension {
 			throw new Error('Not implemented params <APP_CONTAINER_ID>')
 		}
 
-		chrome.browserAction.onClicked.addListener(onClick);
-		chrome.tabs.onUpdated.addListener(onUpdateTab);
+		browser.tabs.onUpdated.addListener(onUpdateTab);
+		browser.browserAction.onClicked.addListener(onClick);
 	}
 
 	static injectJS () {
@@ -88,23 +102,19 @@ class AppExtension {
 
 // My code
 AppExtension.injectJS = (tab) => {
-	chrome.tabs.insertCSS(tab.id, {
+	browser.tabs.insertCSS(tab.id, {
 		file: 'all.css'
 	});
 
-	chrome.tabs.executeScript(tab.id, {
-		file: 'page.js'
-	});
-
-	chrome.tabs.executeScript(tab.id, {
+	browser.tabs.executeScript(tab.id, {
 		file: 'runtime.js'
 	});
 
-	chrome.tabs.executeScript(tab.id, {
+	browser.tabs.executeScript(tab.id, {
 		file: 'chunk.js'
 	});
 
-	chrome.tabs.executeScript(tab.id, {
+	browser.tabs.executeScript(tab.id, {
 		file: 'main.js'
 	});
 };
