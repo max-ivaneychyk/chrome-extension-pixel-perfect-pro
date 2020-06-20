@@ -30,3 +30,7 @@
     @content;
   }
 }
+
+@mixin useShadow () {
+  box-shadow: rgba(100, 115, 130, 0.35) 0px 0px 5px 0px;
+}

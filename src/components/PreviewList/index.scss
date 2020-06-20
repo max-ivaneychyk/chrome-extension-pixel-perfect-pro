@@ -30,6 +30,8 @@
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 
+    @include useShadow();
+
     &:focus,
     &:hover {
       background: white;
@@ -86,8 +88,13 @@
       border-color: var(--primary-color);
     }
 
-    &:hover svg {
-      opacity: 1;
+    &:hover {
+      button {
+        background: white;
+      }
+      svg {
+        opacity: 1;
+      }
     }
   }
 
