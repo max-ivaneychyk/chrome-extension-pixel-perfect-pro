@@ -2,9 +2,10 @@ import { joinClasses } from "../../utils";
 import React from "react";
 import './index.scss'
 
-const Input = ({ value = 0, onChange, min, max, className, step, type = 'number', disabled, name }) => {
+const Input = ({ value = 0, placeholder, onChange, min, max, className, step, type = 'number', disabled, name }) => {
   return (
     <input
+      placeholder={placeholder}
       name={ name }
       className={ joinClasses(className, 'Input') }
       value={ value }

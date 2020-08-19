@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Draggable from 'react-draggable';
 import { toNumber } from "../../utils";
 
-const ImageLayer = ({ x, y, scale, visible, inversion, alignVertical, opacity, onChangePosition, lock, file, center }) => {
+const ImageLayer = ({ x, y, scale, visible, width: savedWidth, useWidth, inversion, alignVertical, opacity, onChangePosition, lock, file, center }) => {
   const [ width, updateWidth ] = useState(0);
   const style = {
     transform: `translateY(${ alignVertical ? -50 : 0 }%)`,
@@ -25,7 +25,7 @@ const ImageLayer = ({ x, y, scale, visible, inversion, alignVertical, opacity, o
   };
 
   const imageStyle = {
-    width: `${toNumber(scale * width)}px`,
+    width: `${useWidth ? savedWidth : toNumber(scale * width)}px`,
     height: 'auto',
     maxWidth: 'initial',
     pointerEvents: 'none',

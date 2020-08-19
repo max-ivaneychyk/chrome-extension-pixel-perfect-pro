@@ -42,7 +42,7 @@ function App() {
   const [ file, _updateFile ] = useState(null);
   // Options Layers
   const [ settings, updateSettings ] = useSettings(file ? file.name : '', SETTINGS);
-  const { x, y, opacity, scale, center, inversion, alignVertical } = settings;
+  const { x, y, opacity, scale, center, inversion, alignVertical, width = "", useWidth = false } = settings;
   // Options Controls
   const [ visible, onChangeVisibility ] = useStorageValue(APP_KEY, 'visible', EXTENSION_SETTINGS.visible);
   const [ lock, updateLock ] = useStorageValue(APP_KEY, 'lock', EXTENSION_SETTINGS.lock);
@@ -54,6 +54,8 @@ function App() {
 
   const { updateByKey, merge } = updateSettings;
   const updateScale = updateByKey('scale');
+  const updateWidth = updateByKey('width');
+  const updateUseWidth = updateByKey('useWidth');
   const updateOpacity = updateByKey('opacity');
   const updateX = updateByKey('x');
   const updateY = updateByKey('y');
@@ -150,6 +152,8 @@ function App() {
               visible={ visible }
               scale={ scale }
               lock={ lock }
+              width={width}
+              useWidth={useWidth}
               alignVertical={ alignVertical }
               opacity={ opacity / 100 }
               onChangePosition={ onChangePosition }
@@ -162,6 +166,8 @@ function App() {
               y={ y }
               opacity={ opacity }
               scale={ scale }
+              width={width}
+              useWidth={useWidth}
               lock={ lock }
               center={ center }
               visible={ visible }
@@ -170,9 +176,11 @@ function App() {
               onChangeInversion={ onChangeInversion }
               onAlignCenter={ updateAlignX }
               onLock={ updateLock }
+              onChangeUseWidth={updateUseWidth}
               onChangeOpacity={ updateOpacity }
               onChangePosition={ onChangePosition }
               onChangeScale={ updateScale }
+              onChangeWidth={updateWidth}
               onChangeVisibility={ onChangeVisibility }
               onAlignVerticalCenter={ updateByKey('alignVertical') }
             />
