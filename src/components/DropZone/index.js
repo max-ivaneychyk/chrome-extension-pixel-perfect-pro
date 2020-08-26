@@ -21,7 +21,7 @@ const DropZone = ({ onDrop }) => {
               { ...getInputProps() }
               accept={ 'image/*' }
             />
-            <Label>Drag 'n' drop images here, or click to select images </Label>
+            <Label>Drag 'n' drop images here, or click to select </Label>
           </div>
         </section>
       ) }

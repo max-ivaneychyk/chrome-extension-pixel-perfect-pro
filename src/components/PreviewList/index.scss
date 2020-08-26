@@ -13,7 +13,8 @@
   .EmptyListPlaceholder {
     display: flex;
     align-items: center;
-    padding-left: 8px;
+    padding: 8px;
+    text-align: center;
     font-size: 20px;
     font-weight: 500;
     animation: opacityAnim 3s;
@@ -106,5 +107,42 @@
     overflow-x: auto;
 
     @include useScroll()
+  }
+
+  // new layout
+  .to-left.PreviewList {
+    left: 0;
+    width: 160px;
+    height: 100%;
+    flex-direction: column;
+
+    &.hidden-list {
+      transform: translateX(-100%);
+    }
+
+    .DropZone {
+      width: 100%;
+      min-width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .ScrollArea {
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .Preview {
+      width: 100%;
+      min-width: 100%;
+      margin: 4px 0;
+    }
+
+    .ToggleBtn {
+      top: auto;
+      bottom: 0;
+      transform: translateX(100%) rotate(90deg);
+      right: -4px;
+    }
   }
 }
