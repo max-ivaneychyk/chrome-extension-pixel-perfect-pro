@@ -1,19 +1,27 @@
 @import "../../share";
 
 @include useScope() {
+  $gold: 1.62;
+  $height: 256px;
+
   .Controls {
     display: flex;
     flex-direction: column;
-    max-width: 152px;
+    max-width: $height/$gold;
     position: fixed;
     right: 0;
     top: 0;
-    height: 250px;
+    height: $height;
     transition: height 0.2s ease-in;
     overflow: hidden;
 
     .handleDraggable {
       cursor: move;
+    }
+
+    .IconWrap {
+      margin-left: auto;
+      margin-right: 4px;
     }
 
     label {

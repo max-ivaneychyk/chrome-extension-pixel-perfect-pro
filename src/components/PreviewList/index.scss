@@ -78,6 +78,7 @@
       top: 0;
       padding: 0;
       margin: 4px;
+
     }
 
     svg {
@@ -91,6 +92,7 @@
     &:hover {
       button {
         background: white;
+        @include useShadow();
       }
       svg {
         opacity: 1;

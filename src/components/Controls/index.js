@@ -74,7 +74,7 @@ const Controls = ({
 	};
 
 	const handleWidth = ({target: {value}}) => {
-		onChangeWidth(toNumber(value))
+		onChangeWidth(toNumber(value) || "")
 	};
 
 	const handleUseWidth = () => onChangeUseWidth(!useWidth);
@@ -190,7 +190,7 @@ const Controls = ({
             <Icon
               Component={IoIosResize}
               size={22}
-              title={useWidth ? 'Use scale insteadof width' : 'Use width insteadof scale'}
+              title={'Use scale instead of width'}
               onClick={handleUseWidth}
               active={!useWidth}
             />

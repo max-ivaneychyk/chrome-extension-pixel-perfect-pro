@@ -25,12 +25,16 @@ const ImageLayer = ({ x, y, scale, visible, width: savedWidth, useWidth, inversi
   };
 
   const imageStyle = {
-    width: `${useWidth ? savedWidth : toNumber(scale * width)}px`,
+    width: `${useWidth ? savedWidth : toNumber(scale * width)}`,
     height: 'auto',
     maxWidth: 'initial',
     pointerEvents: 'none',
     filter: `invert(${ inversion }%)`
   };
+
+  if (imageStyle.width) {
+    imageStyle.width += "px"
+  }
 
   useEffect(() => {
 
