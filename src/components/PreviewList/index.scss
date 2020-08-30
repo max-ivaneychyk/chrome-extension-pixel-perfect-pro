@@ -18,7 +18,6 @@
     font-size: 20px;
     font-weight: 500;
     animation: opacityAnim 3s;
-
   }
 
   button.ToggleBtn {
@@ -30,8 +29,28 @@
     background: white;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    @include useOpacityAnimation();
 
     @include useShadow();
+
+    &:focus,
+    &:hover {
+      background: white;
+    }
+  }
+
+  button.PositionBtn {
+    @include useOpacityAnimation();
+    @include useShadow();
+
+    z-index: 10;
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    border-color: transparent;
+    background: white;
+    opacity: 0;
+
 
     &:focus,
     &:hover {
@@ -43,7 +62,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    height: 100px;
+    height: 120px;
     box-shadow: rgba(100, 115, 130, 0.15) 0px -1px 4px 0px;
     width: 100%;
     display: flex;
@@ -55,11 +74,17 @@
     &.hidden-list {
       transform: translateY(100%);
     }
+
+    &:hover {
+      button.PositionBtn {
+        opacity: 0.8;
+      }
+    }
   }
 
   .Preview {
-    width: 102px;
-    min-width: 102px;
+    width: 120px;
+    min-width: 120px;
     height: 100%;
     position: relative;
     margin-right: 8px;
@@ -79,10 +104,11 @@
       top: 0;
       padding: 0;
       margin: 4px;
-
+      @include useOpacityAnimation(0.2s);
     }
 
     svg {
+      @include useOpacityAnimation(0.2s);
       opacity: 0;
     }
 
@@ -140,7 +166,7 @@
 
     .ToggleBtn {
       top: auto;
-      bottom: 0;
+      bottom: 4px;
       transform: translateX(100%) rotate(90deg);
       right: -4px;
     }

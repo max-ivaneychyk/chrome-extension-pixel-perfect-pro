@@ -1,5 +1,5 @@
 import React from "react";
-import { IoIosCloseCircleOutline, IoIosArrowDropup, IoIosArrowDropdown } from "react-icons/io";
+import { IoIosCloseCircleOutline, IoIosArrowDropup, IoIosArrowDropdown, IoIosArrowRoundBack, IoIosArrowRoundDown } from "react-icons/io";
 import './index.scss'
 import { joinClasses } from "../../utils";
 import DropZone from "../DropZone";
@@ -22,14 +22,16 @@ const ScrollArea = ({ children, speed = 0.2 }) => {
       { children }
     </div>
   )
-}
+};
 
 const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
   const [ isVisible, toggle ] = useStorageValue(APP_KEY, 'showLayers', EXTENSION_SETTINGS.showLayers);
+  const [ positionSide, togglePosition ] = useStorageValue(APP_KEY, 'position', EXTENSION_SETTINGS.position);
   const handleToggle = () => toggle(!isVisible);
+  const handleChangePosition = () => togglePosition(positionSide ? "" : "left");
 
   return (
-    <div className={ joinClasses('PreviewList', !isVisible ? 'hidden-list' : '') }>
+    <div className={ joinClasses(`PreviewList to-${positionSide}`, !isVisible ? 'hidden-list' : '') }>
 
       <Icon
         size={ 26 }
@@ -37,6 +39,15 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
         className={ 'ToggleBtn' }
         title={ 'Show/Hide all layers' }
         Component={ isVisible ? IoIosArrowDropdown : IoIosArrowDropup }
+        active
+      />
+
+      <Icon
+        size={ 26 }
+        onClick={ handleChangePosition }
+        className={ 'PositionBtn' }
+        title={ 'Position left/bottom' }
+        Component={ positionSide ? IoIosArrowRoundDown : IoIosArrowRoundBack }
         active
       />
 
