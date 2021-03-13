@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build & npm run postbuild",
+    "build": "react-scripts build && npm run postbuild",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postbuild": "node ./post-build.js"
