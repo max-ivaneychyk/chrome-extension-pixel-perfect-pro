@@ -1,5 +1,5 @@
 import React from "react";
-import { IoIosCloseCircleOutline, IoIosArrowDropup, IoIosArrowDropdown, IoIosArrowRoundBack, IoIosArrowRoundDown } from "react-icons/io";
+import { IoIosCloseCircleOutline, IoIosWarning, IoIosArrowDropup, IoIosArrowDropdown, IoIosArrowRoundBack, IoIosArrowRoundDown } from "react-icons/io";
 import './index.scss'
 import { joinClasses } from "../../utils";
 import DropZone from "../DropZone";
@@ -29,6 +29,10 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
   const [ positionSide, togglePosition ] = useStorageValue(APP_KEY, 'position', EXTENSION_SETTINGS.position);
   const handleToggle = () => toggle(!isVisible);
   const handleChangePosition = () => togglePosition(positionSide ? "" : "left");
+  const handleAddFeedback = () => {
+    const href = "https://forms.gle/RCQD2eTduLZxiN2XA";
+    window.open(href)
+  };
 
   return (
     <div className={ joinClasses(`PreviewList to-${positionSide}`, !isVisible ? 'hidden-list' : '') }>
@@ -48,6 +52,15 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
         className={ 'PositionBtn' }
         title={ 'Position left/bottom' }
         Component={ positionSide ? IoIosArrowRoundDown : IoIosArrowRoundBack }
+        active
+      />
+
+      <Icon
+        size={ 26 }
+        onClick={ handleAddFeedback }
+        className={ 'FeedbackBtn' }
+        title={ 'Help us to improve the extension. Leave feedback' }
+        Component={ IoIosWarning }
         active
       />
 
