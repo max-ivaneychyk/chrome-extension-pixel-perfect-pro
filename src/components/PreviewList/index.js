@@ -6,7 +6,7 @@ import DropZone from "../DropZone";
 import Icon from "../Icon";
 import { useStorageValue } from "../../hooks/useSettings";
 import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
-
+import ReactTooltip from "react-tooltip"
 const ScrollArea = ({ children, speed = 0.2 }) => {
   const ref = React.useRef();
   const handleWheel = event => {
@@ -77,7 +77,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
 
       <ScrollArea>
         {
-          images.map(({ href, name }, index) => (
+          images.map(({ href, name, file }, index) => (
               <div
                 className={ joinClasses(
                   'Preview',
@@ -86,7 +86,18 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                 key={ name }
                 onClick={ () => onSelect(images[index]) }>
 
-                <img src={ href } alt={ '' }/>
+                <img src={ href } alt={ '' }  data-tip data-for={`im-${index}`}/>
+                <ReactTooltip
+                  id={`im-${index}`}
+                  place={!positionSide ? "top" : 'right'}
+                  effect='solid'
+                  offset={{
+                    top: !positionSide ? 8 : 0,
+                    left: positionSide ? -8 : 0
+                  }}
+                  className='extraTooltipClass'>
+                  <span>{file.name}</span>
+                </ReactTooltip>
 
                 <Icon
                   size={ 26 }

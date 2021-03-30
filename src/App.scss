@@ -70,3 +70,15 @@
 
 }
 
+.extraTooltipClass {
+  padding: 4px 8px !important;
+  font-size: 18px !important;
+  pointer-events: auto !important;
+  min-width: 140px !important;
+  text-align: center;
+  border-radius: 8px;
+  &:hover {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
