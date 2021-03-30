@@ -1,5 +1,6 @@
 import React from "react";
-import { IoIosCloseCircleOutline, IoIosWarning, IoIosArrowDropup, IoIosArrowDropdown, IoIosArrowRoundBack, IoIosArrowRoundDown } from "react-icons/io";
+import { IoIosCloseCircleOutline, IoIosArrowDropup, IoIosArrowDropdown, IoIosArrowRoundBack, IoIosArrowRoundDown } from "react-icons/io";
+import { GoComment } from "react-icons/go";
 import './index.scss'
 import { joinClasses } from "../../utils";
 import DropZone from "../DropZone";
@@ -60,7 +61,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
         onClick={ handleAddFeedback }
         className={ 'FeedbackBtn' }
         title={ 'Help us to improve the extension. Leave feedback' }
-        Component={ IoIosWarning }
+        Component={ GoComment }
         active
       />
 
@@ -86,7 +87,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                 key={ name }
                 onClick={ () => onSelect(images[index]) }>
 
-                <img src={ href } alt={ '' }  data-tip data-for={`im-${index}`}/>
+                <img src={ href } alt={ '' }  data-tip={""} data-for={`im-${index}`}/>
                 <ReactTooltip
                   id={`im-${index}`}
                   place={!positionSide ? "top" : 'right'}
