@@ -1,7 +1,8 @@
 {
-  "name": "pixel-per",
-  "version": "0.1.0",
+  "name": "pixel-perfect-pro",
+  "version": "1.0.2",
   "private": true,
+  "main": "dist/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
