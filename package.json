@@ -1,7 +1,8 @@
 {
   "name": "pixel-perfect-pro",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "private": true,
+  "main": "dist/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -25,6 +26,7 @@
     "build": "react-scripts build && npm run postbuild",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+"prepublish": "npm run build",
     "postbuild": "node ./post-build.js"
   },
   "eslintConfig": {
@@ -41,8 +43,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "adm-zip": "^0.5.5"
   }
 }
