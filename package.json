@@ -1,5 +1,5 @@
 {
-  "name": "pixel-per",
+  "name": "pixel-perfect-pro",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -41,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.5"
   }
 }

@@ -2,6 +2,7 @@ const fs = require('fs');
 const fsAsync = fs.promises
 const DIR = './extension'
 const { parse } = require('node-html-parser');
+const AdmZip = require('adm-zip');
 
 const rmDir = function (dirPath) {
   try {
@@ -19,6 +20,20 @@ const rmDir = function (dirPath) {
     }
   fs.rmdirSync(dirPath);
 };
+
+const folderToZip = (OUTPUT_DIR) => {
+  // creating archives
+  const zip = new AdmZip();
+
+  fs.readdir(OUTPUT_DIR, (err, files) => {
+    files.forEach(file => {
+      zip.addLocalFile(OUTPUT_DIR + "/" + file);
+    });
+
+    zip.writeZip(`${OUTPUT_DIR}/extension.zip`);
+  });
+};
+
 
 fsAsync.lstat(DIR)
 .then(() => rmDir(DIR))
@@ -62,5 +77,6 @@ fsAsync.lstat(DIR)
 
   return Promise.all(promises).then(() => files)
 })
+  .then(() => folderToZip(DIR));
 
 
