@@ -12,7 +12,7 @@ const Slider = ({ value, onChange }) => {
       min="0"
       max="100"
       value={ value }
-      className="slider Slider"
+      className="AEslider AESlider"
       onChange={ handleChange }/>
   )
 }

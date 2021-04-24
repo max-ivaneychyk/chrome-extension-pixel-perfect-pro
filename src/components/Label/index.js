@@ -4,7 +4,7 @@ import './index.scss'
 
 const Label = ({ children, className }) => {
   return (
-    <p className={ joinClasses(className, 'Label') }>{ children }</p>
+    <p className={ joinClasses(className, 'AELabel') }>{ children }</p>
   )
 }
 

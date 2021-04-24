@@ -17,7 +17,7 @@ const ScrollArea = ({ children, speed = 0.2 }) => {
 
   return (
     <div
-      className={ 'ScrollArea' }
+      className={ 'AEScrollArea' }
       ref={ ref }
       onWheel={ handleWheel }>
       { children }
@@ -36,12 +36,12 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
   };
 
   return (
-    <div className={ joinClasses(`PreviewList to-${positionSide}`, !isVisible ? 'hidden-list' : '') }>
+    <div className={ joinClasses(`AEPreviewList AEto-${positionSide}`, !isVisible ? 'AEhidden-list' : '') }>
 
       <Icon
         size={ 26 }
         onClick={ handleToggle }
-        className={ 'ToggleBtn' }
+        className={ 'AEToggleBtn' }
         title={ 'Show/Hide all layers' }
         Component={ isVisible ? IoIosArrowDropdown : IoIosArrowDropup }
         active
@@ -50,7 +50,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
       <Icon
         size={ 26 }
         onClick={ handleChangePosition }
-        className={ 'PositionBtn' }
+        className={ 'AEPositionBtn' }
         title={ 'Position left/bottom' }
         Component={ positionSide ? IoIosArrowRoundDown : IoIosArrowRoundBack }
         active
@@ -59,7 +59,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
       <Icon
         size={ 26 }
         onClick={ handleAddFeedback }
-        className={ 'FeedbackBtn' }
+        className={ 'AEFeedbackBtn' }
         title={ 'Help us to improve the extension. Leave feedback' }
         Component={ GoComment }
         active
@@ -71,7 +71,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
 
       {
         !images.length &&
-        <p className={ 'EmptyListPlaceholder' }>
+        <p className={ 'AEEmptyListPlaceholder' }>
           No uploaded images
         </p>
       }
@@ -81,8 +81,8 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
           images.map(({ href, name, file }, index) => (
               <div
                 className={ joinClasses(
-                  'Preview',
-                  selected === images[index] ? 'active-layer' : ''
+                  'AEPreview',
+                  selected === images[index] ? 'AEactive-layer' : ''
                 ) }
                 key={ name }
                 onClick={ () => onSelect(images[index]) }>
@@ -96,7 +96,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
                     top: !positionSide ? 8 : 0,
                     left: positionSide ? -8 : 0
                   }}
-                  className='extraTooltipClass'>
+                  className='AEextraTooltipClass'>
                   <span>{file.name}</span>
                 </ReactTooltip>
 

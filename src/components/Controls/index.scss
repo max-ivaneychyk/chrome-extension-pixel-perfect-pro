@@ -4,7 +4,7 @@
   $gold: 1.62;
   $height: 256px;
 
-  .Controls {
+  .AEControls {
     display: flex;
     flex-direction: column;
     max-width: $height/$gold;
@@ -15,11 +15,11 @@
     transition: height 0.2s ease-in;
     overflow: hidden;
 
-    .handleDraggable {
+    .AEhandleDraggable {
       cursor: move;
     }
 
-    .IconWrap {
+    .AEIconWrap {
       margin-left: auto;
       margin-right: 4px;
     }
@@ -31,11 +31,11 @@
     }
 
     label,
-    .slidecontainer {
+    .AEslidecontainer {
       padding: 0 8px;
     }
 
-    .slidecontainer {
+    .AEslidecontainer {
       margin-top: 4px;
     }
 
@@ -43,7 +43,7 @@
     padding: 0;
     @include useShadow();
 
-    .head {
+    .AEhead {
       min-height: 30px;
       display: flex;
       justify-content: space-between;
@@ -52,16 +52,16 @@
       margin-bottom: 8px;
     }
 
-    &:not(.full) {
+    &:not(.AEfull) {
       height: 32px;
     }
   }
 
-  .Input {
+  .AEInput {
     margin: 4px 0 4px 0;
   }
 
-  .handleDraggable {
+  .AEhandleDraggable {
     cursor: move;
   }
 }

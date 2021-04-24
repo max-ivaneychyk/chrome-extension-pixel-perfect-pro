@@ -10,7 +10,7 @@
 }
 
 @include useScope() {
-  .EmptyListPlaceholder {
+  .AEEmptyListPlaceholder {
     display: flex;
     align-items: center;
     padding: 8px;
@@ -20,7 +20,7 @@
     animation: opacityAnim 3s;
   }
 
-  button.ToggleBtn {
+  button.AEToggleBtn {
     position: absolute;
     top: -4px;
     right: 4px;
@@ -39,8 +39,8 @@
     }
   }
 
-  button.FeedbackBtn,
-  button.PositionBtn {
+  button.AEFeedbackBtn,
+  button.AEPositionBtn {
     @include useOpacityAnimation();
     @include useShadow();
 
@@ -59,11 +59,11 @@
     }
   }
 
-  button.FeedbackBtn {
+  button.AEFeedbackBtn {
     bottom: 40px;
   }
 
-  .PreviewList {
+  .AEPreviewList {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -76,7 +76,7 @@
     @include useCard();
     border-radius: 0;
 
-    &.hidden-list {
+    &.AEhidden-list {
       transform: translateY(100%);
     }
 
@@ -87,15 +87,15 @@
       }
     }
 
-    button.FeedbackBtn,
-    button.PositionBtn {
+    button.AEFeedbackBtn,
+    button.AEPositionBtn {
       &:hover {
         opacity: 1;
       }
     }
   }
 
-  .Preview {
+  .AEPreview {
     width: 120px;
     min-width: 120px;
     height: 100%;
@@ -125,7 +125,7 @@
       opacity: 0;
     }
 
-    &.active-layer img {
+    &.AEactive-layer img {
       border-color: var(--primary-color);
     }
 
@@ -140,7 +140,7 @@
     }
   }
 
-  .ScrollArea {
+  .AEScrollArea {
     display: flex;
     overflow-y: hidden;
     overflow-x: auto;
@@ -149,35 +149,35 @@
   }
 
   // new layout
-  .to-left.PreviewList {
+  .AEto-left.AEPreviewList {
     left: 0;
     width: 160px;
     height: 100%;
     flex-direction: column;
 
-    &.hidden-list {
+    &.AEhidden-list {
       transform: translateX(-100%);
     }
 
-    .DropZone {
+    .AEDropZone {
       width: 100%;
       min-width: 100%;
       margin-bottom: 8px;
     }
 
-    .ScrollArea {
+    .AEScrollArea {
       flex-direction: column;
       overflow-y: auto;
       overflow-x: hidden;
     }
 
-    .Preview {
+    .AEPreview {
       width: 100%;
       min-width: 100%;
       margin: 4px 0;
     }
 
-    .ToggleBtn {
+    .AEToggleBtn {
       top: auto;
       bottom: 4px;
       transform: translateX(100%) rotate(90deg);

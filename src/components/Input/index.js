@@ -7,7 +7,7 @@ const Input = ({ value = 0, placeholder, onChange, min, max, className, step, ty
     <input
       placeholder={placeholder}
       name={ name }
-      className={ joinClasses(className, 'Input') }
+      className={ joinClasses(className, 'AEInput') }
       value={ value }
       type={ type }
       disabled={ disabled }

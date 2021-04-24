@@ -8,7 +8,7 @@ const Icon = ({ onClick, Component, size = 16, active, className, style, title, 
     <button
       style={ style }
       onClick={ onClick }
-      className={ joinClasses('IconWrap', className) }
+      className={ joinClasses('AEIconWrap', className) }
       title={ title }>
       <Component
         size={ size }

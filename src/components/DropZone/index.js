@@ -15,7 +15,7 @@ const DropZone = ({ onDrop }) => {
   return (
     <Dropzone onDrop={ handleDrop }>
       { ({ getRootProps, getInputProps }) => (
-        <section className={ 'DropZone' }>
+        <section className={ 'AEDropZone' }>
           <div { ...getRootProps() }>
             <input
               { ...getInputProps() }

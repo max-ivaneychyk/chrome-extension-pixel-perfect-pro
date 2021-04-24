@@ -120,15 +120,15 @@ const Controls = ({
 		<Draggable
 			position={{x: controlsX, y: controlsY}}
 			onStop={handleDragStop}
-			handle=".handleDraggable"
+			handle=".AEhandleDraggable"
 			bounds={'body'}
 		>
 			<div
 				ref={ref}
-				className={joinClasses('Controls', !showAll && 'full')}>
+				className={joinClasses('AEControls', !showAll && 'AEfull')}>
 
-				<div className={'head'}>
-					<Icon className={'handleDraggable'}
+				<div className={'AEhead'}>
+					<Icon className={'AEhandleDraggable'}
 								Component={IoIosMenu}
 								title={'Change position'}
 								size={22}
@@ -207,12 +207,12 @@ const Controls = ({
             }
           </label>
 
-					<div className="slidecontainer">
+					<div className="AEslidecontainer">
 						<Label>Opacity - {opacity}%</Label>
 						<Slider value={opacity} onChange={onChangeOpacity}/>
 					</div>
 
-					<div className="slidecontainer">
+					<div className="AEslidecontainer">
 						<Label>Inversion - {inversion}%</Label>
 						<Slider value={inversion} onChange={onChangeInversion}/>
 					</div>
