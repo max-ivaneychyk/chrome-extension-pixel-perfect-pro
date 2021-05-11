@@ -25,6 +25,44 @@ const ScrollArea = ({ children, speed = 0.2 }) => {
   )
 };
 
+const Preview = ({onDelete, selected, onSelect, image, positionSide, index}) => {
+  const { href, name, file } = image;
+
+  return (
+    <div
+      className={ joinClasses(
+        'AEPreview',
+        selected ? 'AEactive-layer' : ''
+      ) }
+      key={ name }
+      onClick={ () => onSelect(image) }>
+
+      <img src={ href } alt={ '' }  data-tip={""} data-for={`im-${index}`}/>
+      <ReactTooltip
+        id={`im-${index}`}
+        place={!positionSide ? "top" : 'right'}
+        effect='solid'
+        offset={{
+          top: !positionSide ? 8 : 0,
+          left: positionSide ? -8 : 0
+        }}
+        className='AEextraTooltipClass'>
+        <span>{file.name}</span>
+      </ReactTooltip>
+
+      <Icon
+        size={ 26 }
+        onClick={ (event) => {
+          event.stopPropagation();
+          onDelete(name);
+        } }
+        inactiveColor={ 'var(--danger-color)' }
+        Component={ IoIosCloseCircleOutline }
+      />
+    </div>
+  )
+};
+
 const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
   const [ isVisible, toggle ] = useStorageValue(APP_KEY, 'showLayers', EXTENSION_SETTINGS.showLayers);
   const [ positionSide, togglePosition ] = useStorageValue(APP_KEY, 'position', EXTENSION_SETTINGS.position);
@@ -78,44 +116,22 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
 
       <ScrollArea>
         {
-          images.map(({ href, name, file }, index) => (
-              <div
-                className={ joinClasses(
-                  'AEPreview',
-                  selected === images[index] ? 'AEactive-layer' : ''
-                ) }
-                key={ name }
-                onClick={ () => onSelect(images[index]) }>
-
-                <img src={ href } alt={ '' }  data-tip={""} data-for={`im-${index}`}/>
-                <ReactTooltip
-                  id={`im-${index}`}
-                  place={!positionSide ? "top" : 'right'}
-                  effect='solid'
-                  offset={{
-                    top: !positionSide ? 8 : 0,
-                    left: positionSide ? -8 : 0
-                  }}
-                  className='AEextraTooltipClass'>
-                  <span>{file.name}</span>
-                </ReactTooltip>
-
-                <Icon
-                  size={ 26 }
-                  onClick={ (event) => {
-                    event.stopPropagation();
-                    onDelete(name);
-                  } }
-                  inactiveColor={ 'var(--danger-color)' }
-                  Component={ IoIosCloseCircleOutline }
-                />
-              </div>
+          images.map((image, index) => (
+              <Preview
+                key={image.name}
+                onSelect={onSelect}
+                selected={image === selected}
+                image={image}
+                onDelete={onDelete}
+                positionSide={positionSide}
+                index={index}
+              />
             )
           )
         }
       </ScrollArea>
     </div>
   )
-}
+};
 
 export default PreviewList

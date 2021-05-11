@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "adm-zip": "^0.5.5",
     "idb-kv-store": "^4.4.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
@@ -19,14 +20,13 @@
     "react-hotkeys": "^2.0.0",
     "react-icons": "^3.9.0",
     "react-scripts": "3.4.0",
-    "react-tooltip": "^4.2.17"
+    "react-tooltip": "4.2.13"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && npm run postbuild",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-"prepublish": "npm run build",
     "postbuild": "node ./post-build.js"
   },
   "eslintConfig": {

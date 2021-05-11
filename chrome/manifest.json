@@ -3,7 +3,7 @@
   "description": "Helps developers make best pixel perfect site layout",
   "version": "1.0.3",
   "minimum_chrome_version": "16.0.884",
-  "permissions": ["<all_urls>"],
+  "permissions": ["<all_urls>", "tabs"],
   "background" : {
     "scripts" : ["background.js"],
     "persistent": true
