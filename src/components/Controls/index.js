@@ -11,6 +11,7 @@ import Icon from "../Icon";
 import {joinClasses, toDecimal, toNumber} from "../../utils";
 import {useStorageValue} from "../../hooks/useSettings";
 import {APP_KEY, EXTENSION_SETTINGS} from "../../const/app";
+import {keyMap} from "../../const/keys";
 
 const useResize = callback => {
 	useEffect(() => {
@@ -138,14 +139,14 @@ const Controls = ({
 						Component={visible ? FaRegEye : FaEyeSlash}
 						onClick={handleChangeVisible}
 						active={visible}
-						title={'Show/Hide layer'}
+						title={'Show/Hide layer : ' + keyMap.HIDE_LAYER}
 						size={20}
 					/>
 
 					<Icon
 						Component={lock ? FaLock : FaUnlock}
 						active={lock}
-						title={'Lock/Unlock layer'}
+						title={'Lock/Unlock layer : ' + keyMap.LOCK_LAYER}
 						onClick={handleLock}
 					/>
 

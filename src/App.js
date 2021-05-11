@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.scss';
 import Image from "./components/Image";
-import { HotKeys } from "react-hotkeys";
+import { GlobalHotKeys as HotKeys } from "react-hotkeys";
 import Controls from "./components/Controls";
 import * as Database from './store'
 import PreviewList from "./components/PreviewList";
@@ -9,13 +9,9 @@ import { APP_KEY, EXTENSION_SETTINGS } from "./const/app";
 import useSettings, { useStorageValue } from "./hooks/useSettings";
 import { SETTINGS } from "./const/layer";
 import { SERVICES, useService } from "./hooks/useService";
+import {keyMap} from "./const/keys";
 
-const keyMap = {
-  TO_LEFT: [ "left", 'a' ],
-  TO_RIGHT: [ "right", 'd' ],
-  TO_UP: [ "up", 'w' ],
-  TO_DOWN: [ "down", 's' ],
-};
+
 
 const KEY_LAST_SELECTED = 'last_selected_layer';
 
@@ -113,25 +109,56 @@ function App() {
 
   const handleMoveLeft = () => {
     updateX(x - 1)
-  }
+  };
 
   const handleMoveRight = () => {
     updateX(x + 1)
-  }
+  };
 
   const handleMoveUp = () => {
     updateY(y - 1)
-  }
+  };
 
   const handleMoveDown = () => {
     updateY(y + 1)
-  }
+  };
+
+  const onHideLayer = event => {
+    event.stopPropagation();
+    event.preventDefault();
+    onChangeVisibility(!visible);
+  };
+
+  const [ isVisible, toggle ] = useStorageValue(APP_KEY, 'showLayers', EXTENSION_SETTINGS.showLayers);
+
+  const onHidePanel =  event => {
+    event.stopPropagation();
+    event.preventDefault();
+    toggle(!isVisible);
+  };
+
+  const onLockScroll = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    document.body.style.overflow = document.body.style.overflow === "hidden" ? "" : "hidden"
+  };
+
+  const onLockLayer = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    updateLock(!lock)
+  };
 
   const handlers = {
     TO_LEFT: handleMoveLeft,
     TO_RIGHT: handleMoveRight,
     TO_UP: handleMoveUp,
-    TO_DOWN: handleMoveDown
+    TO_DOWN: handleMoveDown,
+    HIDE_LAYER: onHideLayer,
+    HIDE_PANEL: onHidePanel,
+    LOCK_LAYER: onLockLayer,
+    LOCK_SCROLL: onLockScroll,
   };
 
   const onChangePosition = merge;
@@ -192,6 +219,8 @@ function App() {
           selected={ file }
           onSelect={ handleSelectImage }
           onDrop={ handleAttachFiles }
+          isVisible={isVisible}
+          toggle={toggle}
           onDelete={ handleDeleteImage }/>
       </HotKeys>
     </div>

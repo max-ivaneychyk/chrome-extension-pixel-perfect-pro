@@ -8,6 +8,7 @@ import Icon from "../Icon";
 import { useStorageValue } from "../../hooks/useSettings";
 import { APP_KEY, EXTENSION_SETTINGS } from "../../const/app";
 import ReactTooltip from "react-tooltip"
+import {keyMap} from "../../const/keys";
 const ScrollArea = ({ children, speed = 0.2 }) => {
   const ref = React.useRef();
   const handleWheel = event => {
@@ -63,8 +64,7 @@ const Preview = ({onDelete, selected, onSelect, image, positionSide, index}) => 
   )
 };
 
-const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
-  const [ isVisible, toggle ] = useStorageValue(APP_KEY, 'showLayers', EXTENSION_SETTINGS.showLayers);
+const PreviewList = ({ images, selected, onDelete, onDrop, onSelect, isVisible, toggle }) => {
   const [ positionSide, togglePosition ] = useStorageValue(APP_KEY, 'position', EXTENSION_SETTINGS.position);
   const handleToggle = () => toggle(!isVisible);
   const handleChangePosition = () => togglePosition(positionSide ? "" : "left");
@@ -80,7 +80,7 @@ const PreviewList = ({ images, selected, onDelete, onDrop, onSelect }) => {
         size={ 26 }
         onClick={ handleToggle }
         className={ 'AEToggleBtn' }
-        title={ 'Show/Hide all layers' }
+        title={ 'Show/Hide all layers : ' + keyMap.HIDE_PANEL }
         Component={ isVisible ? IoIosArrowDropdown : IoIosArrowDropup }
         active
       />
