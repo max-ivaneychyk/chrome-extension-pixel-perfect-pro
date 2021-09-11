@@ -24,5 +24,7 @@ npm run build
  
  
  
- Chrome Web Store: https://chrome.google.com/webstore/detail/pixel-perfect-pro/nnhifpoojdlddpnhjbhiagddgckpmpfb
+Chrome Web Store: https://chrome.google.com/webstore/detail/pixel-perfect-pro/nnhifpoojdlddpnhjbhiagddgckpmpfb
+ 
+ 
 Mozilla Addons: https://addons.mozilla.org/ru/firefox/addon/pixel-perfect-pro/
