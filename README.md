@@ -21,3 +21,8 @@ Build the extension
 npm run build
 ```
  Go to the folder `./extension`
+ 
+ 
+ 
+ Chrome Web Store: https://chrome.google.com/webstore/detail/pixel-perfect-pro/nnhifpoojdlddpnhjbhiagddgckpmpfb
+Mozilla Addons: https://addons.mozilla.org/ru/firefox/addon/pixel-perfect-pro/
