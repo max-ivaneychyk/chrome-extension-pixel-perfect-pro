@@ -13,7 +13,7 @@ Features:
 
 Install dependencies
 ```
-yarn install
+npm install
 ```
 
 Build the extension
